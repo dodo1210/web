@@ -1,0 +1,93 @@
+#body{
+	background: #ccc;
+}
+
+
+#menu{
+	background: #555;
+	box-shadow: 6px 6px 6px #333;
+}
+
+#menu a img:hover{
+	background: #888;
+	border-radius: 60%;
+}
+
+#logo{
+	width: 70%;
+}
+
+input{
+	width: 100%;
+}
+
+.usu{
+	border-radius: 60%;
+	width: 30%;
+}
+
+#info div{
+	background-color: white;
+}
+
+#info div:hover{
+	background-color: #555;
+	box-shadow: 6px 6px 6px #333;
+	color: white;
+}
+
+#publicar{
+	border-radius: 2%;
+}
+
+button{
+	background-color: #489b11;
+}
+
+button:hover{
+	box-shadow: 4px 4px 4px #333;
+}
+
+#publicacoes{
+	margin-top: 10%;
+}
+
+#relacionados div{
+	background-color: white;
+}
+
+#relacionados div:hover{
+	background-color: #555;
+	box-shadow: 6px 6px 6px #333;
+	color: white;
+}
+
+#timeline{
+	border-radius: 3%;
+	margin-top: 3%;
+	background-color: white;
+}
+
+#timeline div small:hover{
+	color: green;
+	text-decoration: none;
+}
+
+#timeline div a:hover{
+	color: green;
+}
+
+#visualizar{
+	background-color: #ccc;
+}
+
+#usu_timeline{
+	width: 10%;
+	float: left;
+}
+
+#post{
+	width: 90%;
+	border-radius: 3%;
+	text-align: center;
+}

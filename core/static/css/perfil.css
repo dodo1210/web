@@ -1,0 +1,49 @@
+h4{
+	color: black;
+}
+
+#perfil{
+	background-color: white;
+	border-radius: 3%;
+}
+
+#img_perfil{
+	width: 100%;
+}
+
+button{
+	background-color: #eee;
+}
+
+#btn_seg{
+	background: #ddd;
+	width: 100%;
+	color: green;
+}
+
+#btn_seg:hover{
+	background: #666;
+	width: 100%;
+	color: green;
+}
+
+#btn_seg:hover{
+	background: #ccc;
+	width: 100%;
+	color: green;
+}
+
+#info div:hover{
+	background-color: #555;
+	box-shadow: 6px 6px 6px #333;
+	color: white;
+}
+
+#back{
+	background: #ccc;
+	color: black;
+}
+
+#back:hover{
+	color: green;
+}

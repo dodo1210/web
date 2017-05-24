@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title>Django</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+	<script src="{% static 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js' %}"></script>
+  	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+<body id="body">
+
+<!--menu-->
+<div id="menu" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+	</div>
+	<!--logo-->
+	<div id="menu" class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+		<a href="{% url 'core:home' %}">
+			<img id="logo" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
+		</a>
+	</div>	
+	
+	<!--vazio-->
+	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+		<!--vazio-->
+	</div>
+
+	<!--buscar-->
+	<div id="buscar" class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+		<br>
+		<form class="form-horizont">
+	  		<div class="form-group">
+	    		<div class="col-sm-10">
+	      			<input type="email" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
+	    		</div>
+	    		<button>
+	      			<div class="input-group-addon">
+	      				<span class="glyphicon glyphicon-search"></span>
+      			 	</div>
+	      		</button>
+	  		</div>
+	  	</form>
+	</div>
+
+	<!--vazio-->
+	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">	
+
+	</div>
+
+	<!--usuário/configurações-->
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+		<br>
+		<span class="glyphicon glyphicon-user" ></span>
+	</div>
+
+	<!--vazio-->
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+
+	</div>
+
+</div>
+
+<!--corpo-->
+<div id="corpo" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+	<!--vazio-->
+	<br>
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+
+	</div>
+
+	<!--info usuario-->
+	<div id="info" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+
+		<!--nome e foto do usuário-->
+		<a href="">
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h3>
+					<img class="usu img-responsive" src="{% static 'img/logo_menor.png' %}">
+					<br>
+					<!--{ variavel com o nome do usuario }-->
+					DOUGLAS SIQUEIRA
+				</h3>
+			</div>
+		</a>
+		<br>
+
+		<!--grupos usuario-->
+		<a href="{% url 'core:seu_grupo' %}">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>GRUPOS</strong></h4>
+			</div>
+		</a>
+
+		<!--envios usuario-->
+		<a href="{% url 'core:envios' %}">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>ENVIOS</strong></h4>
+			</div>
+		</a>
+
+		<!--fóruns usuario-->
+		<a href="{% url 'core:forum' %}">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>FÓRUNS</strong></h4>
+			</div>
+		</a>
+
+	</div>
+
+	<!--timeline-->
+	<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
+
+		<!--publicar-->
+		<div id="publicar" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+			<form class="form-horizont">
+				<br>
+				<div class="form-group">
+					<textarea placeholder="Publique algo que deseje" class="form-control" rows="5" id="comment"></textarea>
+				</div>
+
+				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+					<input type="file">
+				</div>
+				
+				<!--opções-->
+				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+					<select class="form-control" id="sel1">
+				    	<option>Areas de interese</option>
+						<option>2</option>
+				    	<option>3</option>
+					    <option>4</option>
+			  		</select>
+			  	</div>
+
+			  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+			  	</div>
+
+			  	<!--botão-->
+			  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+			  		<button class="btn"><strong>ENVIAR</strong></button>
+				</div>
+				<br>
+			</form>
+		</div>
+
+		<div id="vazio_publ" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+			<br>
+		</div>
+
+		<!--linha do tempo-->
+		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+			<!--date nome-->
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<a href="#"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+				<a href="#"><h3>Tomaz Bisneto</h3></a>
+				<br>
+				<small>15 junho 2017</small>
+			</div>
+
+			<!--publicação-->
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<img id="post" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
+			</div>
+
+			<!--visualizar-->
+			<a id="visualizar" href="">
+				<button type="button" class="btn btn-default">
+					<h4><span style="float: left;" class=" glyphicon glyphicon-eye-open"></span> VISUALIZAR</h4>
+				</button>
+			</a>
+
+		</div>
+		<br>
+
+		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<a href="#"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+				<a href="#"><h3>Tomaz Bisneto</h3></a>
+				<br>
+				<small>15 junho 2017</small>
+			</div>	
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<img id="post" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
+			</div>
+
+			<button type="button" class="btn btn-default">
+				<h4><span style="float: left;" class=" glyphicon glyphicon-eye-open"></span> VISUALIZAR</h4>
+			</button>
+
+		</div>
+
+	</div>
+
+	<!--assuntos relacionados-->
+	<div id="relacionados" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+		<h3><small>ASSUNTOS RELACIONADOS</small></h3>
+		<!--grupos usuario-->
+		<a href="">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Estruturas de dados</strong></h4>
+			</div>
+		</a>
+
+		<!--envios usuario-->
+		<a href="">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Banco de dados</strong></h4>
+			</div>
+		</a>
+
+		<!--fóruns usuario-->
+		<a href="">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Seminário de introdução ao curso</strong></h4>
+			</div>
+		</a>
+	</div>
+
+	<!--vazio-->
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+
+	</div>
+
+</div>
+
+</body>
+</html>
