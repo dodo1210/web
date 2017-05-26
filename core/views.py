@@ -6,9 +6,10 @@ from .forms import UserForm
 from django.contrib import auth
 from django.template.context_processors import csrf
 
+
+
+
 def index(request):
-    if request.method == "POST":
-        print(request.POST.get('tom', ''))
     return render(request,"envios.html")
 
 def login(request):
@@ -37,3 +38,12 @@ def loggedin(request):
 def logout(request):
     auth.logout(request)
     return render_to_response('logout.html')
+
+
+def cadastro(request):
+    if request.method == "POST":
+        print("Teste")
+    context = {
+        'form' : auth.forms.UserCreationForm()
+    }
+    return render(request,'cadastro.html',context)
