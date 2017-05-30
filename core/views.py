@@ -2,15 +2,17 @@ from django.shortcuts import render,render_to_response
 
 # Create your views here.
 from django.http import HttpResponse,HttpResponseRedirect
-from .forms import UserForm
 from django.contrib import auth
 from django.template.context_processors import csrf
-
+from .forms import RegisterForm
 
 
 
 def index(request):
-    return render(request,"envios.html")
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:
+        return HttpResponseRedirect('/loggedin/')
 
 def login(request):
     c = {}
@@ -42,8 +44,14 @@ def logout(request):
 
 def cadastro(request):
     if request.method == "POST":
-        print("Teste")
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/login/')
+
+    else:
+        form = RegisterForm()
     context = {
-        'form' : auth.forms.UserCreationForm()
+        'form' : form
     }
     return render(request,'cadastro.html',context)

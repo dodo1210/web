@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title>Django</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+</head>
+
+<body>
+
+	<header>
+		<div id="cabecalho" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+			<div class="col-sm-1 col-md-1 col-xs-1 col-lg-1">
+				
+			</div>
+			<div class="col-sm-1 col-md-1 col-xs-1 col-lg-1">
+				<img src="{% static 'img/logo_menor.png' %}">
+			</div>
+			<div class="col-sm-3 col-md-3 col-xs-3 col-lg-3">
+				
+			</div>
+		</div>
+	</header>
+	
+	<content>
+
+		<div id="corpo_index" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+			<br>
+			<br>
+			<br>
+			<br>
+			<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3">
+				
+			</div>
+			<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
+				<form action="/auth/" method="post">
+				{% csrf_token %}
+					<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+						E-mail<br>
+						Senha
+					</div>
+					<div class="col-sm-9 col-md-9 col-xs-12 col-lg-9">
+						<input type="text" class="form-control" name="username">
+	    				<input type="password" class="form-control" name="senha">
+					</div>
+					<button type="submit" class="btn btn-default" value = "login">Entrar</button>
+					<br>
+					<a href="/register">Cadastre-se</a>
+				</form>
+			</div>
+			
+			<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3">
+				
+			</div>
+			<br>
+			<br>
+			<br>
+			<br>
+		</div>
+	</content>
+
+	<footer>	
+		<div id="cabecalho" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+		</div>
+	</footer>
+
+</body>
+
+</html>
