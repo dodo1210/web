@@ -20,15 +20,15 @@ def user_directory_path(instance, filename):
 
 
 class Obt_Estudo(models.Model):
-	nome = models.CharField(max_length=100, verbose_name='Objetos')
+	nome = models.CharField(max_length=100, verbose_name='Objetos de Estudos')
 
 	def __str__(self):
 		return self.nome
 
 class Perfil(models.Model):
 	user = models.OneToOneField(User, related_name='Perfil')
-	bio = models.TextField(verbose_name='Bio', blank=True)
-	imagem_perfil = models.ImageField(verbose_name='Imagem',blank=True, null=True, upload_to=user_directory_profileimage)
+	bio = models.TextField(verbose_name='Biografia', blank=True)
+	imagem_perfil = models.ImageField(verbose_name='Imagem de Perfil',blank=True, null=True, upload_to=user_directory_profileimage)
 	data_cadastro = models.DateTimeField(verbose_name='Data_Cadastro',default=timezone.now)
 	data_altera = models.DateTimeField(verbose_name='Data_Alteracao',default=timezone.now)
 

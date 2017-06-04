@@ -52,7 +52,9 @@
 	<!--usuário/configurações-->
 	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
 		<br>
-		<span class="glyphicon glyphicon-user" ></span>
+		<a href="/logout/">
+			<span class="glyphicon glyphicon-user" ></span>
+		</a>
 	</div>
 
 	<!--vazio-->
@@ -75,13 +77,13 @@
 	<div id="info" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 
 		<!--nome e foto do usuário-->
-		<a href="/logout/">
+		<a href="/perfil/">
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h3>
 					<img class="usu img-responsive" src="{% static 'img/logo_menor.png' %}">
 					<br>
 					<!--{ variavel com o nome do usuario }-->
-					DOUGLAS SIQUEIRA
+					<p>{{user.first_name}}</p>
 				</h3>
 			</div>
 		</a>

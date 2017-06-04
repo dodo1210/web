@@ -2,13 +2,12 @@
 </!DOCTYPE html>
 <html>
 <head>
-	<title>seu errado</title>
+	<title>Cadastrar</title>
 </head>
 <body>
 <form method = "post">
 	{% csrf_token %}
-	<p><label>Nome:</label> <input type="text" name="nome"></p>
+	{{form}}
 </form>
 </body>
 </html>
-

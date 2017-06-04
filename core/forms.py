@@ -2,6 +2,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import Perfil,Obt_Estudo
 
 
 class RegisterForm(UserCreationForm):
@@ -20,5 +21,15 @@ class RegisterForm(UserCreationForm):
 		return user
 
 
-class ProfileForm():
-	pass
+class ProfileForm(forms.ModelForm):
+	
+	class Meta:
+		model = Perfil
+		fields = ('imagem_perfil', 'bio',)
+
+
+class CadAreaForm(forms.ModelForm):
+	
+	class Meta:
+		model = Obt_Estudo
+		fields = ['nome']
