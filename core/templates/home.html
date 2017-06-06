@@ -80,7 +80,11 @@
 		<a href="/perfil/">
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h3>
+				{%if perfil.imagem_perfil%}
+					<img class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">
+				{% else%}
 					<img class="usu img-responsive" src="{% static 'img/logo_menor.png' %}">
+				{%endif%}
 					<br>
 					<!--{ variavel com o nome do usuario }-->
 					<p>{{user.first_name}}</p>
@@ -90,7 +94,7 @@
 		<br>
 
 		<!--grupos usuario-->
-		<a href="#">
+		<a href="/grupos/">
 			<br>
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h4><strong>GRUPOS</strong></h4>

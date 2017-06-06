@@ -17,7 +17,7 @@
 	</div>
 	<!--logo-->
 	<div id="menu" class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
-		<a href="{% url 'core:home' %}">
+		<a href="/loggedin/">
 			<img id="logo" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
 		</a>
 	</div>	
@@ -78,10 +78,9 @@
 		<a href="">
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h3>
-					<img class="usu img-responsive" src="{% static 'img/logo_menor.png' %}">
+					<img class="usu img-responsive" src="{{grupo.imagem_logo.url}}">
 					<br>
-					<!--{ variavel com o nome do usuario }-->
-					Nome do grupo
+					{{grupo.titulo}}
 				</h3>
 			</div>
 		</a>

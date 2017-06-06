@@ -20,4 +20,10 @@ urlpatterns = [
     url(r'^exibirPerfil/$', views.exibirPerfil, name='exibirPerfil'),
     url(r'^editarcadPerfil/$', views.editarcadPerfil, name='editarcadPerfil'),
     url(r'^obt_Estudo/$', views.obt_Estudo, name='obt_Estudo'),
+
+    #grupos de estudos
+     url(r'^grupos/$', views.showGrupo, name='grupos'),
+     url(r'^criarGrupos/$', views.cadGrupoDeestuds, name='grupos'),
+     url(r'^grupo/(?P<id>\d+)/$', views.showSingleGupo, name='gruposSingle'),
+
 ]
