@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Perfil,Obt_Estudo,Grupo_de_Estudo
+from .models import Perfil,Obt_Estudo,Grupo_de_Estudo,Publicacao_Grupo_de_Estudo
 
 
 class RegisterForm(UserCreationForm):
@@ -39,3 +39,10 @@ class CadGrupForm(forms.ModelForm):
 	class Meta:
 		model = Grupo_de_Estudo
 		fields = ['titulo','desc','area','imagem_logo']
+
+
+class FormPublicacao_Grupo_de_Estudo(forms.ModelForm):
+	
+	class Meta:
+		model = Publicacao_Grupo_de_Estudo
+		fields = ['titulo','texto','anexo','area']

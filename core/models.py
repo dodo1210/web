@@ -94,6 +94,7 @@ class Publicacao_Grupo_de_Estudo(models.Model):
 	user   = models.ForeignKey(User, default=1)
 	grupo  = models.ForeignKey(Grupo_de_Estudo, default=1)
 	titulo = models.CharField(max_length=100)
+	perfil = models.ForeignKey(Perfil,  default=1)
 	texto  = models.TextField(verbose_name='Texto', blank=True)
 	anexo  = models.FileField(verbose_name='Anexo',blank=True, upload_to=user_directory_path)
 	area   = models.ManyToManyField(Obt_Estudo)
@@ -104,6 +105,7 @@ class Publicacao_Grupo_de_Estudo(models.Model):
 
 class Coment_Publicacao_Grupo_de_Estudo(models.Model):
 	user = models.ForeignKey(User, default=1)
+	perfil = models.ForeignKey(Perfil,  default=1)
 	grupo  = models.ForeignKey(Grupo_de_Estudo, default=1)
 	publi = models.ForeignKey(Publicacao_Grupo_de_Estudo, default=1)
 	coment = models.TextField(verbose_name='Comentario', blank=True)

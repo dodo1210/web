@@ -101,28 +101,14 @@
 
 		<!--publicar-->
 		<div id="publicar" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-			<form class="form-horizont">
+			<form class="form-horizont"  method = "post" enctype="multipart/form-data">
+				{% csrf_token %}
 				<br>
-				<div class="form-group">
-					<textarea placeholder="Publique algo que deseje" class="form-control" rows="5" id="comment"></textarea>
-				</div>
-
-				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
-					<input type="file">
-				</div>
-				
-				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
-					<select class="form-control" id="sel1">
-				    	<option>Areas de interese</option>
-						<option>2</option>
-				    	<option>3</option>
-					    <option>4</option>
-			  		</select>
-			  	</div>
-
-			  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
-			  	</div>
-
+				{% for field in form %}
+					<p>{{field.label}}</p>
+					<p>{{field}}</p>
+					<p>{{field.errors}}</p>
+				{% endfor%}
 			  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 			  		<button class="btn"><strong>ENVIAR</strong></button>
 				</div>
@@ -135,18 +121,33 @@
 		</div>
 
 		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-
-			<br>
-			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<a href="#"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
-				<a href="#"><h3>Tomaz Bisneto</h3></a>
-				<br>
-				<small>15 junho 2017</small>
-			</div>
-			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<img id="post" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
-			</div>
-
+			{%if post%}
+				{%for publicate in post%}
+					<br>
+					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+						<a href="#"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+						<a href="#"><h3>{{publicate.user.first_name}} {{publicate.user.last_name}}</h3></a>
+						<br>
+						<small>{{publicate.data}}</small>
+					</div>
+						<h3>{{publicate.titulo}}</h3>
+						<br>
+						<p>
+							{{publicate.texto}}
+						</p>
+					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+						<img id="post" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
+					</div>
+				{% endfor%}
+			{% else%}
+					<br>
+					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+						<h3>{{grupo.titulo}}</h3></a>
+					</div>
+						<p>
+							{{grupo.desc}}
+						</p>
+			{% endif %}
 		</div>
 		<br>
 

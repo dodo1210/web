@@ -4,7 +4,7 @@ from django.shortcuts import render,render_to_response,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import auth
 from django.template.context_processors import csrf
-from .forms import RegisterForm,CadAreaForm,ProfileForm,CadGrupForm,Obt_Estudo
+from .forms import RegisterForm,CadAreaForm,ProfileForm,CadGrupForm,Obt_Estudo,FormPublicacao_Grupo_de_Estudo
 from .models import Perfil,Obt_Estudo,Publicacao,Coment_Publi,Forum_Duvida,Resp_Forum_Duvida,Grupo_de_Estudo,Publicacao_Grupo_de_Estudo,Coment_Publicacao_Grupo_de_Estudo,Seguidor
 from django.utils import timezone
 from datetime import datetime
@@ -183,9 +183,26 @@ def showGrupo(request):#usar o metodos de pegar as os dados tranforma em lista e
 
 
 def showSingleGupo(request,id):
-    grupo = Grupo_de_Estudo.objects.get(id=id)
-    context = {
-
-        'grupo': grupo
-    }
-    return render(request,'grupo.html',context)
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:
+        grupo = Grupo_de_Estudo.objects.get(id=id)
+        if request.method == "POST":
+            form = FormPublicacao_Grupo_de_Estudo(request.POST)
+            if form.is_valid():
+                user  = request.user
+                area = get_object_or_404(Obt_Estudo,id=request.POST.get('area',''))
+                publicate = form.save(commit=False)
+                publicate.anexo = request.FILES.get('anexo', False)
+                publicate.user = user
+                publicate.grupo = grupo
+                publicate.save()
+                publicate.area.add(area)
+        postes = Publicacao_Grupo_de_Estudo.objects.filter(grupo=grupo)
+        form = FormPublicacao_Grupo_de_Estudo()
+        context = {
+            'grupo': grupo,
+            'form' : form,
+            'post' :postes,
+        }
+        return render(request,'grupo.html',context)
