@@ -105,7 +105,7 @@ class Publicacao_Grupo_de_Estudo(models.Model):
 	data   = models.DateTimeField(verbose_name='Data_Cadastro',default=timezone.now)
 	
 	def __str__(self):
-		return self.user.username + ' publicou ' + self.titulo + 'em ' + self.grupo.titulo
+		return self.user.username + ' publicou ' + self.titulo + ' em ' + self.grupo.titulo
 
 class Coment_Publicacao_Grupo_de_Estudo(models.Model):
 	user = models.ForeignKey(User, default=1)

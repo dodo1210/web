@@ -125,7 +125,7 @@
 				{%for publicate in post%}
 					<br>
 					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-						<a href="#"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+						<a href="#"><img id="usu_timeline" class="usu img-responsive" src="{{publicate.perfil.imagem_perfil.url}}"></a>
 						<a href="#"><h3>{{publicate.user.first_name}} {{publicate.user.last_name}}</h3></a>
 						<br>
 						<small>{{publicate.data}}</small>
@@ -138,6 +138,10 @@
 					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 						<img id="post" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
 					</div>
+					<br>
+					<a href="/pucacaogrupo/{{publicate.id}}">
+						<button type="submit" class="btn btn-default" value = "cadastar">Ver</button>
+					</a>
 				{% endfor%}
 			{% else%}
 					<br>

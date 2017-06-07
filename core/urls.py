@@ -25,5 +25,5 @@ urlpatterns = [
      url(r'^grupos/$', views.showGrupo, name='grupos'),
      url(r'^criarGrupos/$', views.cadGrupoDeestuds, name='grupos'),
      url(r'^grupo/(?P<id>\d+)/$', views.showSingleGupo, name='gruposSingle'),
-
+     url(r'^pucacaogrupo/(?P<id>\d+)/$', views.showSinglePublicateGrupo, name='showSinglePublicateGrupo'),
 ]

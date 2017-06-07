@@ -4,7 +4,7 @@ from django.shortcuts import render,render_to_response,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import auth
 from django.template.context_processors import csrf
-from .forms import RegisterForm,CadAreaForm,ProfileForm,CadGrupForm,Obt_Estudo,FormPublicacao_Grupo_de_Estudo
+from .forms import RegisterForm,CadAreaForm,ProfileForm,CadGrupForm,Obt_Estudo,FormPublicacao_Grupo_de_Estudo,FormComent_Publicacao_Grupo_de_Estudo
 from .models import Perfil,Obt_Estudo,Publicacao,Coment_Publi,Forum_Duvida,Resp_Forum_Duvida,Grupo_de_Estudo,Publicacao_Grupo_de_Estudo,Coment_Publicacao_Grupo_de_Estudo,Seguidor
 from django.utils import timezone
 from datetime import datetime
@@ -209,3 +209,29 @@ def showSingleGupo(request,id):
             'post' :postes,
         }
         return render(request,'grupo.html',context)
+
+
+
+def showSinglePublicateGrupo(request,id):
+    publicate = Publicacao_Grupo_de_Estudo.objects.get(id=id)
+    if request.method == "POST":
+            form = FormComent_Publicacao_Grupo_de_Estudo(request.POST)
+            if form.is_valid():
+                user  = request.user
+                perfil = Perfil.objects.filter(user=user)
+                perfil1 = perfil[0]
+                grupo = publicate.grupo
+                comentario = form.save(commit=False)
+                comentario.user = user
+                comentario.perfil = perfil1
+                comentario.publi = publicate
+                comentario.grupo = grupo
+                comentario.save()
+    coment = Coment_Publicacao_Grupo_de_Estudo.objects.filter(publi=publicate)
+    form =  FormComent_Publicacao_Grupo_de_Estudo()
+    context = {
+            'publicate': publicate,
+            'form' : form,
+            'coments' :coment,
+    }
+    return render(request,'showPublicate.html',context)
