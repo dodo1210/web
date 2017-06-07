@@ -42,6 +42,7 @@ class Perfil(models.Model):
 class Publicacao(models.Model):
 	user   = models.ForeignKey(User, default=1)
 	titulo = models.CharField(verbose_name='Titulo',max_length=100)
+	perfil = models.ForeignKey(Perfil,  default=1)
 	texto  = models.TextField(verbose_name='Texto', blank=True)
 	anexo  = models.FileField(verbose_name='Anexo',blank=True, upload_to=user_directory_path)
 	area   = models.ManyToManyField(Obt_Estudo)
@@ -53,6 +54,7 @@ class Publicacao(models.Model):
 class Coment_Publi(models.Model):
 	user = models.ForeignKey(User, default=1)
 	publi = models.ForeignKey(Publicacao)
+	perfil = models.ForeignKey(Perfil,  default=1)
 	coment = models.TextField(verbose_name='Comentario', blank=True)
 	data = models.DateTimeField(verbose_name='Data_Cadastro',default=timezone.now)
 	
@@ -62,6 +64,7 @@ class Coment_Publi(models.Model):
 class Forum_Duvida(models.Model):
 	user   = models.ForeignKey(User, default=1)
 	area   = models.ManyToManyField(Obt_Estudo)
+	perfil = models.ForeignKey(Perfil,  default=1)
 	data   = models.DateTimeField(default=timezone.now)
 	texto  = models.TextField(verbose_name='Texto', blank=True)
 
@@ -72,6 +75,7 @@ class Forum_Duvida(models.Model):
 class Resp_Forum_Duvida(models.Model):
 	user = models.ForeignKey(User, default=1)
 	forum = models.ForeignKey(Forum_Duvida, default=1)
+	perfil = models.ForeignKey(Perfil,  default=1)
 	resp = models.TextField(verbose_name='Resposta', blank=True)
 	data = models.DateTimeField(verbose_name='Data Cadastro',default=timezone.now)
 	melhor_resposta = models.BooleanField(verbose_name='Melhor Resposta',default=False)

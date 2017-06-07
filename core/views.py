@@ -191,11 +191,14 @@ def showSingleGupo(request,id):
             form = FormPublicacao_Grupo_de_Estudo(request.POST)
             if form.is_valid():
                 user  = request.user
+                perfil = Perfil.objects.filter(user=user)
+                perfil1 = perfil[0]
                 area = get_object_or_404(Obt_Estudo,id=request.POST.get('area',''))
                 publicate = form.save(commit=False)
                 publicate.anexo = request.FILES.get('anexo', False)
                 publicate.user = user
                 publicate.grupo = grupo
+                publicate.perfil = perfil1
                 publicate.save()
                 publicate.area.add(area)
         postes = Publicacao_Grupo_de_Estudo.objects.filter(grupo=grupo)
