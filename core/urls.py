@@ -22,8 +22,10 @@ urlpatterns = [
     url(r'^obt_Estudo/$', views.obt_Estudo, name='obt_Estudo'),
 
     #grupos de estudos
-     url(r'^grupos/$', views.showGrupo, name='grupos'),
-     url(r'^criarGrupos/$', views.cadGrupoDeestuds, name='grupos'),
-     url(r'^grupo/(?P<id>\d+)/$', views.showSingleGupo, name='gruposSingle'),
-     url(r'^pucacaogrupo/(?P<id>\d+)/$', views.showSinglePublicateGrupo, name='showSinglePublicateGrupo'),
+    url(r'^grupos/$', views.showGrupo, name='grupos'),
+    url(r'^criarGrupos/$', views.cadGrupoDeestuds, name='grupos'),
+    url(r'^grupo/(?P<id>\d+)/$', views.showSingleGupo, name='gruposSingle'),
+    url(r'^pucacaogrupo/(?P<id>\d+)/$', views.showSinglePublicateGrupo, name='showSinglePublicateGrupo'),
+    url(r'^participaGrupo/(?P<id>\d+)/$', views.participatedGrupo, name='participatedGrupo'),
+    url(r'^sair/(?P<id>\d+)/$', views.sairGrupo, name='sairGrupo'),
 ]

@@ -86,14 +86,21 @@
 		</a>
 		<br>
 
-		<!--grupos usuario-->
-		<a href="">
+		{% if user not in list_user%}<!--grupos usuario-->
+		<a href="/participaGrupo/{{grupo.id}}/">
 			<br>
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h4><strong><span class="glyphicon glyphicon-plus"></span> PARTICIPAR</strong></h4>
 			</div>
 		</a>
-
+		{%else%}
+			<a href="/sair/{{grupo.id}}">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Deixar Grupo</strong></h4>
+			</div>
+			</a>
+		{% endif %}
 	</div>
 
 	<!--timeline-->

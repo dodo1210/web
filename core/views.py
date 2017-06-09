@@ -202,36 +202,63 @@ def showSingleGupo(request,id):
                 publicate.save()
                 publicate.area.add(area)
         postes = Publicacao_Grupo_de_Estudo.objects.filter(grupo=grupo)
+        postes = postes[::-1]
+        lista_user = list(grupo.participantes.all())
         form = FormPublicacao_Grupo_de_Estudo()
+        user = request.user
         context = {
             'grupo': grupo,
             'form' : form,
             'post' :postes,
+            "list_user": lista_user,
+            'user' : user
         }
         return render(request,'grupo.html',context)
 
 
 
 def showSinglePublicateGrupo(request,id):
-    publicate = Publicacao_Grupo_de_Estudo.objects.get(id=id)
-    if request.method == "POST":
-            form = FormComent_Publicacao_Grupo_de_Estudo(request.POST)
-            if form.is_valid():
-                user  = request.user
-                perfil = Perfil.objects.filter(user=user)
-                perfil1 = perfil[0]
-                grupo = publicate.grupo
-                comentario = form.save(commit=False)
-                comentario.user = user
-                comentario.perfil = perfil1
-                comentario.publi = publicate
-                comentario.grupo = grupo
-                comentario.save()
-    coment = Coment_Publicacao_Grupo_de_Estudo.objects.filter(publi=publicate)
-    form =  FormComent_Publicacao_Grupo_de_Estudo()
-    context = {
-            'publicate': publicate,
-            'form' : form,
-            'coments' :coment,
-    }
-    return render(request,'showPublicate.html',context)
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:    
+        publicate = Publicacao_Grupo_de_Estudo.objects.get(id=id)
+        if request.method == "POST":
+                form = FormComent_Publicacao_Grupo_de_Estudo(request.POST)
+                if form.is_valid():
+                    user  = request.user
+                    perfil = Perfil.objects.filter(user=user)
+                    perfil1 = perfil[0]
+                    grupo = publicate.grupo
+                    comentario = form.save(commit=False)
+                    comentario.user = user
+                    comentario.perfil = perfil1
+                    comentario.publi = publicate
+                    comentario.grupo = grupo
+                    comentario.save()
+        coment = Coment_Publicacao_Grupo_de_Estudo.objects.filter(publi=publicate)
+        form =  FormComent_Publicacao_Grupo_de_Estudo()
+        context = {
+                'publicate': publicate,
+                'form' : form,
+                'coments' :coment,
+        }
+        return render(request,'showPublicate.html',context)
+
+def participatedGrupo(request,id):
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:
+        user = request.user
+        grupo = Grupo_de_Estudo.objects.get(id=id)
+        grupo.participantes.add(user)
+        return HttpResponseRedirect('/grupo/'+id+'/')
+
+
+def sairGrupo(request,id):
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:
+        user = request.user
+        grupo = Grupo_de_Estudo.objects.get(id=id)
+        grupo.participantes.remove(user)
+        return HttpResponseRedirect('/grupo/'+id+'/')
