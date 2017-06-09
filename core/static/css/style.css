@@ -1,3 +1,8 @@
 #corpo_index{
 	background: #aaaaaa;
 }
+
+#fundo{
+	background-image: url("biblioteca.jpg");
+	width: 100%;
+}

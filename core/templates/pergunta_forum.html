@@ -29,13 +29,13 @@
 	<!--buscar-->
 	<div id="buscar" class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
 		<br>
-		<form class="form-horizont">
+		<form  action="/buscar/" class="form-horizont">
 	  		<div class="form-group">
 	    		<div class="col-sm-10">
-	      			<input type="email" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
+	      			<input name="busca" type="text" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
 	    		</div>
-	    		<button>
-	      			<div class="input-group-addon">
+	    		<button class="btn">
+	      			<div>
 	      				<span class="glyphicon glyphicon-search" ></span>
       			 	</div>
 	      		</button>
@@ -51,7 +51,14 @@
 	<!--usuário/configurações-->
 	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
 		<br>
-		<span class="glyphicon glyphicon-user" ></span>
+		<div class="dropdown">
+			<button class="btn glyphicon glyphicon-user" type="button" data-toggle="dropdown">Você<span class="caret"></span>
+			</button>
+	  		<ul class="dropdown-menu">
+		    	<li><a href="/edit_user/">Editar perfil</a></li>
+			    <li><a href="/logout/">Sair</a></li>
+		  	</ul>
+		</div>
 	</div>
 
 	<!--vazio-->
@@ -74,13 +81,13 @@
 	<div id="info" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 
 		<!--nome e foto do usuário-->
-		<a href="">
+		<a href="/exibirPerfil/">
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h3>
 					<img class="usu img-responsive" src="{% static 'img/logo_menor.png' %}">
 					<br>
 					<!--{ variavel com o nome do usuario }-->
-					DOUGLAS SIQUEIRA
+					{{user.username}}
 				</h3>
 			</div>
 		</a>
@@ -91,14 +98,6 @@
 			<br>
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h4><strong>GRUPOS</strong></h4>
-			</div>
-		</a>
-
-		<!--envios usuario-->
-		<a href="{% url 'core:envios' %}">
-			<br>
-			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<h4><strong>ENVIOS</strong></h4>
 			</div>
 		</a>
 
@@ -123,42 +122,37 @@
 				<br>
 				<!--pergunta-->
 				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-					<a href="{% url 'core:perfil' %}"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
-					<a href="{% url 'core:forum' %}"><h3> Pergunta</h3></a>
-					<br>
-					<a href="{% url 'core:perfil' %}"><h3><small>Nome da pessoa</small></h3></a>
-					<hr>
+					<a href="/exibirPerfil/"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+					<a href="/showPerfil/{{forum.user.id}}"><h3><small>{{usuario_publicou}}</small></h3></a>
+					<a><h3><small> {{forum.data}} </small></h3></a>
+					<a href=""><h3> {{forum.texto}} </h3></a>
 				</div>
+
+				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+					
+				</div>
+				<hr>
 
 				<!--publicar-->
 				<div id="publicar" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 					<h3>Responder</h3>
-					<form class="form-horizont">
+					<form class="form-horizont" action="" enctype="multipart/form-data" method="post">
+						{% csrf_token %}
 						<div class="form-group">
-							<textarea placeholder="Responda à este fórum" class="form-control" rows="5" id="comment"></textarea>
-						</div>
-
-						<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
-							<select class="form-control" id="sel1">
-						    	<option>Areas de interese</option>
-								<option>2</option>
-						    	<option>3</option>
-							    <option>4</option>
-					  		</select>
+							<textarea name="resp" placeholder="Responda à este fórum" class="form-control" rows="5" id="comment"></textarea>
 						</div>
 						
 						<!--opções-->
-						<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+						<div class="col-sm-9 col-md-9 col-xs-12 col-lg-9">
 							
-					  	</div>
-
-					  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 					  	</div>
 
 					  	<!--botão-->
 					  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
-					  		<button class="btn"><strong>RESPONDER</strong></button>
+					  		<button type="submit" class="btn"><strong>RESPONDER</strong></button>
 						</div>
+						<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+					  	</div>
 						<br>
 					</form>
 					<hr>
@@ -166,17 +160,15 @@
 				
 				<!--respostas-->
 				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-					<a href="{% url 'core:perfil' %}"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
-					<h3>resposta 1</h3>
-					<a href="{% url 'core:perfil' %}"><h3><small>Nome da pessoa</small></h3></a>
-					<hr>
-				</div>
-
-				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-					<a href="{% url 'core:perfil' %}"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
-					<h3>resposta 2</h3>
-					<a href="{% url 'core:perfil' %}"><h3><small>Nome da pessoa</small></h3></a>
-					<hr>
+					{% for resposta in respostas %}
+					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+						<a href="/exibirPerfil/"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+						<a href="/exibirPerfil/"><h3><small>{{resposta.user.username}}</small></h3></a>
+						<h3><small>{{resposta.data}}</small></h3>
+						<h3>{{resposta.resp}}</h3>
+						<hr>
+					</div>
+					{% endfor %}
 				</div>
 				<br>
 			</div>

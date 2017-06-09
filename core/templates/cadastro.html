@@ -1,18 +1,53 @@
-</!DOCTYPE html>
+<!DOCTYPE html>
+{% load static %}
 <html>
 <head>
-	<title>Cadastro de Usuario</title>
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist\css\bootstrap.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css\style.css' %}">
+<title></title>
 </head>
-<body>
-<form method = "post">
+<body style="background: black;">
+
+<!--cabeçalho-->
+<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
+<br>
+<br>
+</div>
+<!--imagem aki-->
+<div  class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+<img style="width: 100%;" class="img-responsive" src="{% static 'img/img1.jpg' %}">
+<br>
+<br>
+</div>
+
+<div id="fundo" class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+<!--corpo-->
+<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
+<h1 style="display: none;"></h1>
+<br>
+</div>
+<br>
+<div class="col-md-8 col-sm-8 col-xs-12 col-lg-8">
+<br>
+
+<div id="publicar" class="col-sm-8 col-md-8 col-xs-12 col-lg-8">
+	<form class="form-horizontal" action="" method="post">
 	{% csrf_token %}
 	{% for field in form %}
-		<p>{{field.label}}</p>
-		<p>{{field}}</p>
-		<p>{{field.errors}}</p>
+	<div class="form-group">
+	  <div class="col-sm-10">
+	  	<p> {{field.errors}}</p>
+		 <p ><strong style="color: white;" >{{field.label}}</strong></p>
+	     <p style="width: 200%;">{{field}}</p>
+	  </div>
+	</div>
 	{% endfor%}
-	<button type="submit" class="btn btn-default" value = "cadastar">Cadastrar</button>
-	<br>
-</form>
+	<button style="border: 1px solid dimgray background-position: bottom left;" class="btn btn-default" type="submit">Confirmar</button>
+	</form>
+</div>
+
+</div>
+</div>
+
 </body>
 </html>

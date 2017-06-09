@@ -2,71 +2,78 @@
 {% load static %}
 <html>
 <head>
-	<title>Django</title>
-	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist\css\bootstrap.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css\style.css' %}">
+<title>Quarkdo - Bem-vindo</title>
 </head>
+<body style="background: black;">
 
-<body>
+<!--cabeçalho-->
+<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
+<br>
+<br>
+</div>
+<!--imagem aki-->
+<div  class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+<img style="width: 100%;" class="img-responsive" src="{% static 'img/img1.jpg' %}">
+<br>
+<br>
+</div>
 
-	<header>
-		<div id="cabecalho" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-			<div class="col-sm-1 col-md-1 col-xs-1 col-lg-1">
-				
-			</div>
-			<div class="col-sm-1 col-md-1 col-xs-1 col-lg-1">
-				<img src="{% static 'img/logo_menor.png' %}">
-			</div>
-			<div class="col-sm-3 col-md-3 col-xs-3 col-lg-3">
-				
-			</div>
-		</div>
-	</header>
-	
-	<content>
+<div id="fundo" class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+<!--corpo-->
+<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
+<h1 style="display: none;"></h1>
+<br>
+</div>
+<br>
+<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
+<br>
+{% if error_message %} <h1 style="color:white;">{{error_message}}</h1> {% endif %}
+<form class="form-horizontal" action="/auth/" method="post">
+{% csrf_token %}
+<div class="form-group">
+<p>Conta</p>
+    <div class="col-sm-10">
+    <label for="exampleInputUsuario">
+    <font  color="white">Usuário</font>
+    </label>
+      <input type="login" class="form-control" id="inputLogin" placeholder="Usuario123" name="username">
+    </div>
+  </div>
 
-		<div id="corpo_index" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-			<br>
-			<br>
-			<br>
-			<br>
-			<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3">
-				
-			</div>
-			<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
-				<form action="/auth/" method="post">
-				{% csrf_token %}
-					<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
-						E-mail<br>
-						Senha
-					</div>
-					<div class="col-sm-9 col-md-9 col-xs-12 col-lg-9">
-						<input type="text" class="form-control" name="username">
-	    				<input type="password" class="form-control" name="senha">
-					</div>
-					<button type="submit" class="btn btn-default" value = "login">Entrar</button>
-					<br>
-					<a href="/register">Cadastre-se</a>
-				</form>
-			</div>
-			
-			<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3">
-				
-			</div>
-			<br>
-			<br>
-			<br>
-			<br>
-		</div>
-	</content>
+<div class="form-group">
+   
+    <div class="col-sm-10">
+    <label for="exampleInputSenha">
+    <font  color="white">Senha</font>
+    </label>
+      <input type="password" class="form-control" id="inputSenha" placeholder="Senha" name="senha">
+    </div>
+  </div>
+ 
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox">
+          <font  color="white">Permanecer Conectado</font>
+        </label>
+      </div>
+    </div>
+  </div>
 
-	<footer>	
-		<div id="cabecalho" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+<button style="border: 1px solid dimgray background-position: bottom left;" class="btn btn-default" type="submit">Entrar
+</button>
 
-		</div>
-	</footer>
+</form>
+<br>
+<a href="/register/"><button style="background-position: bottom right;" class="btn btn-default" type="submit">Cadastrar-se
+</button></a>
+  </div>
+
+</div>
+</div>
 
 </body>
-
 </html>

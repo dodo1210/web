@@ -11,6 +11,7 @@
 </head>
 <body id="body">
 
+<!--menu-->
 <div id="menu" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
 	</div>
@@ -51,7 +52,14 @@
 	<!--usuário/configurações-->
 	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
 		<br>
-		<span class="glyphicon glyphicon-user" ></span>
+		<div class="dropdown">
+			<button class="glyphicon glyphicon-user" type="button" data-toggle="dropdown">Você<span class="caret"></span>
+			</button>
+	  		<ul class="dropdown-menu">
+		    	<li><a href="/edit_user/">Editar perfil</a></li>
+			    <li><a href="/logout/">Sair</a></li>
+		  	</ul>
+		</div>
 	</div>
 
 	<!--vazio-->
@@ -74,13 +82,13 @@
 	<div id="info" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 
 		<!--nome e foto do usuário-->
-		<a href="">
+		<a href="/exibirPerfil/">
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<h3>
+				<h3 class="text-capitalize">
 					<img class="usu img-responsive" src="{% static 'img/logo_menor.png' %}">
 					<br>
 					<!--{ variavel com o nome do usuario }-->
-					DOUGLAS SIQUEIRA
+					{{user.username}}
 				</h3>
 			</div>
 		</a>
@@ -94,14 +102,6 @@
 			</div>
 		</a>
 
-		<!--envios usuario-->
-		<a href="{% url 'core:envios' %}">
-			<br>
-			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<h4><strong>ENVIOS</strong></h4>
-			</div>
-		</a>
-
 		<!--fóruns usuario-->
 		<a href="{% url 'core:forum' %}">
 			<br>
@@ -110,17 +110,79 @@
 			</div>
 		</a>
 
+	</div>
+
+	<!--timeline-->
+	<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
+
+		<!--publicar-->
+		<div id="publicar" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+		
+			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+				<br>
+				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+					<a href="{% url 'core:grupo' %}"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+					<a href="{% url 'core:grupo' %}"><h3>Nome do grupo</h3></a>
+				</div>
+				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+					<h3>Informações sobre o grupo</h3>
+				</div>
+				<br>
+			</div>
+
+			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+				<br>
+				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+					<a href="{% url 'core:grupo' %}"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+					<a href="{% url 'core:grupo' %}"><h3>Nome do grupo</h3></a>
+				</div>
+				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+					<h3>Informações sobre o grupo</h3>
+				</div>
+				<br>
+			</div>
+
+		</div>
+		<br>
+
+	</div>
+
+	<!--assuntos relacionados-->
+	<div id="relacionados" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+		<h3><small>ASSUNTOS RELACIONADOS</small></h3>
+		<!--grupos usuario-->
+		<a href="">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Estruturas de dados</strong></h4>
+			</div>
+		</a>
+
+		<!--envios usuario-->
+		<a href="">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Banco de dados</strong></h4>
+			</div>
+		</a>
+
 		<!--fóruns usuario-->
 		<a href="">
 			<br>
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<h4><strong>FÓRUNS</strong></h4>
+				<h4><strong>Seminário de introdução ao curso</strong></h4>
 			</div>
-		</a>	
+		</a>
+	</div>
+
+	<!--vazio-->
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
 
 	</div>
 
 </div>
 
-
 </body>
+</html>

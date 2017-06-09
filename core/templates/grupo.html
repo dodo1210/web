@@ -17,7 +17,7 @@
 	</div>
 	<!--logo-->
 	<div id="menu" class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
-		<a href="/loggedin/">
+		<a href="/home/">
 			<img id="logo" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
 		</a>
 	</div>	
@@ -30,10 +30,10 @@
 	<!--buscar-->
 	<div id="buscar" class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
 		<br>
-		<form class="form-horizont">
+		<form action="/buscar/" class="form-horizont">
 	  		<div class="form-group">
 	    		<div class="col-sm-10">
-	      			<input type="email" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
+	      			<input name="busca" type="text" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
 	    		</div>
 	    		<button>
 	      			<div class="input-group-addon">
@@ -52,7 +52,14 @@
 	<!--usuário/configurações-->
 	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
 		<br>
-		<span class="glyphicon glyphicon-user" ></span>
+		<div class="dropdown">
+			<button class="glyphicon glyphicon-user" type="button" data-toggle="dropdown">Você<span class="caret"></span>
+			</button>
+	  		<ul class="dropdown-menu">
+		    	<li><a href="/edit_user/">Editar perfil</a></li>
+			    <li><a href="/logout/">Sair</a></li>
+		  	</ul>
+		</div>
 	</div>
 
 	<!--vazio-->
@@ -78,88 +85,102 @@
 		<a href="">
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h3>
+					{% if grupo.imagem_logo %}
 					<img class="usu img-responsive" src="{{grupo.imagem_logo.url}}">
+					{% endif %}
 					<br>
 					{{grupo.titulo}}
+					<!--{ variavel com o nome do usuario }-->
 				</h3>
 			</div>
 		</a>
 		<br>
 
-		{% if user not in list_user%}<!--grupos usuario-->
-		<a href="/participaGrupo/{{grupo.id}}/">
+		<!--grupos usuario-->
+		<a href="">
 			<br>
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h4><strong><span class="glyphicon glyphicon-plus"></span> PARTICIPAR</strong></h4>
 			</div>
 		</a>
-		{%else%}
-			<a href="/sair/{{grupo.id}}">
-			<br>
-			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<h4><strong>Deixar Grupo</strong></h4>
-			</div>
-			</a>
-		{% endif %}
+
 	</div>
 
 	<!--timeline-->
 	<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
 
 		<!--publicar-->
-		<div id="publicar" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-			<form class="form-horizont"  method = "post" enctype="multipart/form-data">
+		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+			<form class="form-horizont" enctype="multipart/form-data" method="post">
 				{% csrf_token %}
 				<br>
-				{% for field in form %}
-					<p>{{field.label}}</p>
-					<p>{{field}}</p>
-					<p>{{field.errors}}</p>
-				{% endfor%}
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Título da sua publicação" name="titulo">
+				</div>
+				<div class="form-group">
+					<textarea name="texto" placeholder="Publique algo que deseje" class="form-control" rows="5" id="comment"></textarea>
+				</div>
+
+				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+					<input type="file" name="anexo" value="rdf">
+				</div>
+				
+				<!--opções-->
+				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+					<select name="area">
+						<option value="8">Administração</option>
+					  	<option value="10">Biologia</option>
+					  	<option value="4">Enfermagem</option>
+					  	<option value="7">História</option>
+					  	<option value="1">Matemática</option>
+					  	<option value="5">Medicina</option>
+					  	<option value="6">Nutrição</option>
+					  	<option value="9">Pedagogia</option>
+					  	<option value="2">SI</option>
+					</select> 
+			  	</div>
+
+			  	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+			  	</div>
+
+			  	<!--botão-->
 			  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 			  		<button class="btn"><strong>ENVIAR</strong></button>
 				</div>
-				<br>
 			</form>
+			<br>
 		</div>
 
 		<div id="vazio_publ" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 			<br>
 		</div>
 
+		{% for publi in publis %}
 		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-			{%if post%}
-				{%for publicate in post%}
-					<br>
-					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-						<a href="#"><img id="usu_timeline" class="usu img-responsive" src="{{publicate.perfil.imagem_perfil.url}}"></a>
-						<a href="#"><h3>{{publicate.user.first_name}} {{publicate.user.last_name}}</h3></a>
-						<br>
-						<small>{{publicate.data}}</small>
-					</div>
-						<h3>{{publicate.titulo}}</h3>
-						<br>
-						<p>
-							{{publicate.texto}}
-						</p>
-					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-						<img id="post" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
-					</div>
-					<br>
-					<a href="/pucacaogrupo/{{publicate.id}}">
-						<button type="submit" class="btn btn-default" value = "cadastar">Ver</button>
-					</a>
-				{% endfor%}
-			{% else%}
-					<br>
-					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-						<h3>{{grupo.titulo}}</h3></a>
-					</div>
-						<p>
-							{{grupo.desc}}
-						</p>
-			{% endif %}
+
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<a href="#"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+				<a href="/showPerfil/{{publi.user.id}}"><h3>{{publi.user.username}}</h3></a>
+				<small>{{publi.data}}</small>
+				<h2>{{publi.titulo}}</h2>
+				<h4>{{publi.texto}}</h4>
+			</div>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				{% if publi.anexo %}
+				<img id="post" class="img-responsive" src="{{publi.anexo.url}}">
+				{% endif %}
+			</div>
+
+			<!--visualizar-->
+			<a id="visualizar" href="/pucacaogrupo/{{publi.id}}/">
+				<br>
+				<button type="button" class="btn btn-default">
+					<h4><span style="float: left;" class=" glyphicon glyphicon-eye-open"></span> VISUALIZAR</h4>
+				</button>
+			</a>
 		</div>
+		{% endfor %}
 		<br>
 
 	</div>

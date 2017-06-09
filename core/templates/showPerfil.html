@@ -1,16 +1,248 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
-	<title>Cadastrar</title>
+	<title>Django</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" type=n "text/css" href="{% static 'css/base.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/perfil.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<script src="{% static 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js' %}"></script>
+  	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 </head>
-	<body>	
-		{{perfil.user.username}}
-		{{perfil.user.firt_name}}
-		{{perfil.user.last_name}}
-		{{perfil.bio}}
-		<img src = "{{ perfil.imagem_perfil.url }}">
-		<a href="/editarcadPerfil/">
-			<button type="submit" class="btn btn-default" value = "edit">Editar Perfil</button>
+<body id="body">
+
+<div id="menu" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+	</div>
+	<!--logo-->
+	<div id="menu" class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+		<a href="/home/">
+			<img id="logo" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
 		</a>
-	</body>
+	</div>	
+	
+	<!--vazio-->
+	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+		<!--vazio-->
+	</div>
+
+	<!--buscar-->
+	<div id="buscar" class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+		<br>
+		<form action="/buscar/" class="form-horizont">
+	  		<div class="form-group">
+	    		<div class="col-sm-10">
+	      			<input type="text" name="busca" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
+	    		</div>
+	    		<button>
+	      			<div class="input-group-addon">
+	      				<span class="glyphicon glyphicon-search" ></span>
+      			 	</div>
+	      		</button>
+	  		</div>
+	  	</form>
+	</div>
+
+	<!--vazio-->
+	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">	
+
+	</div>
+
+	<!--usuário/configurações-->
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+		<br>
+		<div class="dropdown">
+			<button class="glyphicon glyphicon-user" type="button" data-toggle="dropdown">Você<span class="caret"></span>
+			</button>
+	  		<ul class="dropdown-menu">
+		    	<li><a href="/edit_user/">Editar perfil</a></li>
+			    <li><a href="/logout/">Sair</a></li>
+		  	</ul>
+		</div>
+	</div>
+
+	<!--vazio-->
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+
+	</div>
+
+</div>
+
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+		<!--vazio-->
+	</div>
+
+	<!--Postagem-->
+	<br>
+	<div class="col-sm-10 col-md-10 col-xs-12 col-lg-10">
+		<br>
+		<div id="perfil" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+			<div id="perfil" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<div id="perfil" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+					<img id="img_perfil" src="{% static 'img/logo_menor.png' %}">
+				</div>
+				<h2 class="text-capitalize">{{usuario.username}}</h2>
+
+			</div>
+
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+				<!--Vazio-->
+				<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+					<!--Vazio-->
+				</div>
+
+				<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+					<h3>Seguindo</h3>
+					<a href="#"><h3>11</h3></a>
+				</div>
+
+				<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+					<h3>Seguidores</h3>
+					<a href="#"><h3>11</h3></a>
+				</div>
+
+				<!--Vazio-->
+				<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+				
+				</div>
+
+				<!--envios usuario-->
+				<a id="back" href="">
+					<br>
+					<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+						<h3><strong class="glyphicon glyphicon-user">SEGUIR</strong></h3>
+					</div>
+				</a>
+
+			</div>
+
+		</div>
+		<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+		</div>
+
+	</div>
+
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+		<!--vazio-->
+	</div>
+
+<!--corpo-->
+<div id="corpo" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+	<!--vazio-->
+	<br>
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+
+	</div>
+
+	<!--info usuario-->
+	<div id="info" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+
+		<!--grupos usuario-->
+		<a href="/seu_grupo/">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>GRUPOS</strong></h4>
+			</div>
+		</a>
+
+		<!--fóruns usuario-->
+		<a href="/forum/">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>FÓRUNS</strong></h4>
+			</div>
+		</a>	
+
+	</div>
+
+	<!--timeline-->
+	<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
+
+		<!--linha do tempo-->
+		{% for publicacao in publicacoes %}
+		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+			<!--date nome-->
+			<br>
+			<div class="col-sm-11 col-md-11 col-xs-12 col-lg-11">
+				<a style="color: black;" href="/exibirPerfil/"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+				<a id="show" style="color: black;" href="/exibirPerfil/"><h3 class="text-capitalize">{{publicacao.user.username}}</h3></a>
+				<br>
+				<small>{{publicacao.data}}</small>
+				<h1> {{publicacao.titulo}}</h1>
+			</div>
+			<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+				<br>
+				<div class="dropdown">
+					<span class="caret"></span>
+					</button>
+			  		<ul class="dropdown-menu">
+				    	<li><a href="/editarPublicacoes/{{publicacao.id}}/">Editar publicacao</a></li>
+					    <li><a href="/excluirPublicacoes/{{publicacao.id}}/">Excluir publicação</a></li>
+				  	</ul>
+				</div>
+			</div>
+
+			<!--publicação-->
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				{{publicacao.texto}}<br>
+					{% if publicacao.anexo %}
+					<img src="{{publicacao.anexo.url}}">
+					{% endif %}
+			</div>
+
+			<!--visualizar-->
+			<a id="visualizar" href="/viewPublicacao/{{publicacao.id}}">
+				<button type="button" class="btn btn-default">
+					<h4><span style="float: left;" class=" glyphicon glyphicon-eye-open"></span> VISUALIZAR</h4>
+				</button>
+			</a>
+
+		</div>
+		<br>
+		{% endfor %}
+
+	</div>
+
+
+	<!--assuntos relacionados-->
+	<div id="relacionados" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+		<h3><small>ASSUNTOS RELACIONADOS</small></h3>
+		<!--grupos usuario-->
+		<a href="">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Estruturas de dados</strong></h4>
+			</div>
+		</a>
+
+		<!--envios usuario-->
+		<a href="">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Banco de dados</strong></h4>
+			</div>
+		</a>
+
+		<!--fóruns usuario-->
+		<a href="">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Seminário de introdução ao curso</strong></h4>
+			</div>
+		</a>
+	</div>
+
+	<!--vazio-->
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+
+	</div>
+
+</div>
+
+</body>
 </html>

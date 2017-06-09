@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title>Django</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+	<script src="{% static 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js' %}"></script>
+  	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+<body id="body">
+
+<!--menu-->
+<div id="menu" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+	</div>
+	<!--logo-->
+	<div id="menu" class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+		<a href="{% url 'core:home' %}">
+			<img id="logo" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
+		</a>
+	</div>	
+	
+	<!--vazio-->
+	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+		<!--vazio-->
+	</div>
+
+	<!--buscar-->
+	<div id="buscar" class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+		<br>
+		<form action="/buscar/" class="form-horizont">
+	  		<div class="form-group">
+	    		<div class="col-sm-10">
+	      			<input name="busca" type="email" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
+	    		</div>
+	    		<button>
+	      			<div class="input-group-addon">
+	      				<span class="glyphicon glyphicon-search" ></span>
+      			 	</div>
+	      		</button>
+	  		</div>
+	  	</form>
+	</div>
+
+	<!--vazio-->
+	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">	
+
+	</div>
+
+	<!--usuário/configurações-->
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+		<br>
+		<div class="dropdown">
+			<button class="glyphicon glyphicon-user" type="button" data-toggle="dropdown">Você<span class="caret"></span>
+			</button>
+	  		<ul class="dropdown-menu">
+		    	<li><a href="/edit_user/">Editar perfil</a></li>
+			    <li><a href="/logout/">Sair</a></li>
+		  	</ul>
+		</div>
+	</div>
+
+	<!--vazio-->
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+
+	</div>
+
+</div>
+
+<!--corpo-->
+<div id="corpo" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+	<!--vazio-->
+	<br>
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+
+	</div>
+
+	<!--info usuario-->
+	<div id="info" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+
+
+		<!--nome e foto do usuário-->
+		<a href="/exibirPerfil/">
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h3 class="text-capitalize">
+					<img class="usu img-responsive" src="{% static 'img/logo_menor.png' %}">
+					<br>
+					<!--{ variavel com o nome do usuario }-->
+					{{user.username}}
+				</h3>
+			</div>
+		</a>
+		<br>
+
+
+		<!--grupos usuario-->
+		<a href="{% url 'core:seu_grupo' %}">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>GRUPOS</strong></h4>
+			</div>
+		</a>
+
+		<!--fóruns usuario-->
+		<a href="{% url 'core:forum' %}">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>FÓRUNS</strong></h4>
+			</div>
+		</a>	
+
+	</div>
+
+	<!--timeline-->
+	<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
+
+		<!--linha do tempo-->
+		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+			<!--date nome-->
+			<br>
+			<h2>Deseja realmente excluir essa publicação?</h2>
+			<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+				<form class="form-horizontal" action="" enctype="multpart/form-data" method="POST">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-danger">Excluir</button></form><br>
+				</form>
+			</div>
+
+			<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+				<a href="/exibirPerfil/">
+					<button type="submit" class="btn">Cancelar</button></a>
+				<br>
+			</div>
+		</div>
+		<br>
+
+	</div>
+
+
+	<!--assuntos relacionados-->
+	<div id="relacionados" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+		<h3><small>ASSUNTOS RELACIONADOS</small></h3>
+		<!--grupos usuario-->
+		<a href="">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Estruturas de dados</strong></h4>
+			</div>
+		</a>
+
+		<!--envios usuario-->
+		<a href="">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Banco de dados</strong></h4>
+			</div>
+		</a>
+
+		<!--fóruns usuario-->
+		<a href="">
+			<br>
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<h4><strong>Seminário de introdução ao curso</strong></h4>
+			</div>
+		</a>
+	</div>
+
+	<!--vazio-->
+	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+
+	</div>
+
+</div>
+
+
+</body>
+</html>

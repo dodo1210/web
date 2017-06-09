@@ -1,3 +1,4 @@
+# -*- coding: utf 8 -*-
 from django.shortcuts import render,render_to_response,get_object_or_404
 
 # Create your views here.
@@ -5,7 +6,19 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib import auth
 from django.template.context_processors import csrf
 from .forms import RegisterForm,CadAreaForm,ProfileForm,CadGrupForm,Obt_Estudo,FormPublicacao_Grupo_de_Estudo,FormComent_Publicacao_Grupo_de_Estudo
-from .models import Perfil,Obt_Estudo,Publicacao,Coment_Publi,Forum_Duvida,Resp_Forum_Duvida,Grupo_de_Estudo,Publicacao_Grupo_de_Estudo,Coment_Publicacao_Grupo_de_Estudo,Seguidor
+from .models import User,Perfil,Obt_Estudo,Publicacao,Coment_Publi,Forum_Duvida,Resp_Forum_Duvida,Grupo_de_Estudo,Publicacao_Grupo_de_Estudo,Coment_Publicacao_Grupo_de_Estudo,Seguidor
+
+from .models import Forum_Duvida as Forum_duvidas
+from .models import Publicacao as Publicacaos
+from .models import Grupo_de_Estudo as Grupos
+from .models import Coment_Publi as Coment_Publis
+from .models import Resp_Forum_Duvida as Resp_Forum_Duvidas
+from .models import Perfil as Perfils
+from .models import Publicacao_Grupo_de_Estudo as Publicacao_Grupo_de_Estudos
+from .models import Coment_Publicacao_Grupo_de_Estudo as  Coment_Publicacao_Grupo_de_Estudos
+
+from .forms import Forum_Duvida, Publicacao, RegisterForm,Edit_User, Coment_Publi, Resp_Forum_Duvida
+
 from django.utils import timezone
 from datetime import datetime
 
@@ -71,6 +84,7 @@ def cadastro(request):
     return render(request,'cadastro.html',context)
 
 def perfil(request):
+    bus = request.POST.get('busca')
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
@@ -79,7 +93,7 @@ def perfil(request):
         if not perfil:
             return HttpResponseRedirect('/cadperfil/')
         else:
-             return HttpResponseRedirect('/exibirPerfil/')
+            return HttpResponseRedirect('/exibirPerfil/')
 
 def cadPerfil(request):
     if not request.user.is_authenticated():
@@ -92,11 +106,12 @@ def cadPerfil(request):
                 user  = request.user
                 tes = form.save(commit=False)
                 tes.user = user
+                print(tes.user)
                 tes.imagem_perfil = request.FILES.get('imagem_perfil', False)
                 var  = tes.imagem_perfil
                 print(var)
                 tes.save()
-                return HttpResponseRedirect('/perfil/')
+                return HttpResponseRedirect('/exibirPerfil/')
         return render(request,'Cad_Perfil.html',{'form':form})
 
 def editarcadPerfil(request):
@@ -147,24 +162,24 @@ def cadGrupoDeestuds(request):
             aux.area.add(area)
             aux.participantes.add(request.user)
     context = {
+        'perfil' : Perfils.objects.get(id=request.user.id),
         'form': form
     }
     return render(request,'criarGrupo.html',context)
 
 
-
 #views de exibição#
-def exibirPerfil(request):
-    if not request.user.is_authenticated():
-        return render(request, 'index.html')
-    else:
-        user = request.user
-        perfil = Perfil.objects.filter(user=user)
-        siglePerfil = perfil[0]
-        context = {
-            'perfil': siglePerfil
-        }
-        return render(request,'showPerfil.html',context)
+#def exibirPerfil(request):
+#    if not request.user.is_authenticated():
+#        return render(request, 'index.html')
+#    else:
+#        user = request.user
+#        perfil = Perfil.objects.filter(user=user)
+#        siglePerfil = perfil[0]
+#        context = {
+#            'perfil': siglePerfil
+#        }
+#        return render(request,'showPerfil.html',context)
 
 
 def showGrupo(request):#usar o metodos de pegar as os dados tranforma em lista e utilisar para comparação
@@ -202,63 +217,345 @@ def showSingleGupo(request,id):
                 publicate.save()
                 publicate.area.add(area)
         postes = Publicacao_Grupo_de_Estudo.objects.filter(grupo=grupo)
-        postes = postes[::-1]
-        lista_user = list(grupo.participantes.all())
         form = FormPublicacao_Grupo_de_Estudo()
-        user = request.user
         context = {
             'grupo': grupo,
             'form' : form,
             'post' :postes,
-            "list_user": lista_user,
-            'user' : user
+            'publis' : postes
         }
         return render(request,'grupo.html',context)
 
 
 
 def showSinglePublicateGrupo(request,id):
-    if not request.user.is_authenticated():
-        return render(request, 'index.html')
-    else:    
-        publicate = Publicacao_Grupo_de_Estudo.objects.get(id=id)
-        if request.method == "POST":
-                form = FormComent_Publicacao_Grupo_de_Estudo(request.POST)
-                if form.is_valid():
-                    user  = request.user
-                    perfil = Perfil.objects.filter(user=user)
-                    perfil1 = perfil[0]
-                    grupo = publicate.grupo
-                    comentario = form.save(commit=False)
-                    comentario.user = user
-                    comentario.perfil = perfil1
-                    comentario.publi = publicate
-                    comentario.grupo = grupo
-                    comentario.save()
-        coment = Coment_Publicacao_Grupo_de_Estudo.objects.filter(publi=publicate)
-        form =  FormComent_Publicacao_Grupo_de_Estudo()
-        context = {
-                'publicate': publicate,
-                'form' : form,
-                'coments' :coment,
-        }
-        return render(request,'showPublicate.html',context)
+    publicate = Publicacao_Grupo_de_Estudos.objects.get(id=id)
+    print (publicate.titulo)
+    if request.method == "POST":
+            form = FormComent_Publicacao_Grupo_de_Estudo(request.POST)
+            if form.is_valid():
+                print ("werw")
+                user  = request.user
+                perfil = Perfil.objects.filter(user=user)
+                perfil1 = perfil[0]
+                grupo = publicate.grupo
+                comentario = form.save(commit=False)
+                comentario.user = user
+                comentario.perfil = perfil1
+                comentario.publi = publicate
+                comentario.grupo = grupo
+                comentario.save()
+    coment = Coment_Publicacao_Grupo_de_Estudos.objects.filter(publi=publicate).order_by('-pk')
+    form =  FormComent_Publicacao_Grupo_de_Estudo()
+    context = {
+            'publicacao': publicate,
+            'form' : form,
+            'coments' :coment,
+            'grupo' : Grupos.objects.get(id = id),
+    }
+    return render(request,'showPublicate.html',context)
 
-def participatedGrupo(request,id):
+#douglas
+
+def home(request):
+    
+    form = Publicacao(request.POST, request.FILES)
+    publicacaos = None
+
+    context = {
+        'user' : request.user,
+        'form' : form,
+        'publicacao' : Publicacaos.objects.all().order_by('-pk')
+    }
+
+    bus = request.POST.get('busca')
+    if request.method == 'POST' and form.is_valid():
+        publicacaos = form.save(commit=False)
+        publicacaos.anexo = request.FILES.get('anexo', False)
+        publicacaos.user = request.user
+        publicacaos.save()
+        return render(request,'home.html',context)
+    return render(request,'home.html',context)
+
+def viewPublicacao(request,publicacao_id):
+
+    form = Coment_Publi(request.POST or None)
+    publi = Publicacaos.objects.get(id=publicacao_id)
+    comentarios = Coment_Publis.objects.filter(publi=publi).order_by('-pk')
+
+    context = {
+        'user' : request.user,
+        'form' : form,
+        'publicacao' : publi,
+        'comentarios' : comentarios
+    }
+
+    if request.method == 'POST':
+        if form.is_valid():
+            comentario = form.save(commit=False)
+            comentario.user = request.user
+            comentario.publi_id = publicacao_id
+            comentario.save()
+            return HttpResponseRedirect('/viewPublicacao/'+publicacao_id)
+    return render(request,'viewPublicacao.html',context)
+
+def seu_grupo(request):
+    bus = request.POST.get('busca')
+
+    context = {
+        'user' : request.user,
+        'grupos' : Grupos.objects.all(),
+        'seu_grupo' : Grupos.objects.filter(participantes = request.user),
+    }
+
+    return render(request,'seu_grupo.html',context)
+
+def grupo(request):
+    bus = request.POST.get('busca')
+    return render(request,'grupo.html')
+
+def forum(request):
+    perfil = Perfils.objects.filter(user=request.user)
+    if perfil:
+        perfil1 = perfil[0]
+    else:
+       perfil1 = Perfil() 
+    context = {
+        'user' : request.user,
+        'foruns':Forum_duvidas.objects.filter(user=request.user).order_by('-pk'),
+        'perfil':perfil1
+    }
+
+    form = Forum_Duvida(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            forum = form.save(commit=False)
+            forum.user = request.user
+            forum.save()
+            return HttpResponseRedirect('/forum/')
+    return render(request,'forum.html',context)
+
+def editForum(request,forum_id):
+    perfil = Perfils.objects.filter(user=request.user)
+    if perfil:
+        perfil1 = perfil[0]
+    else:
+       perfil1 = Perfil()
+    context = {
+        'user' : request.user,
+        'forum':Forum_duvidas.objects.get(id=forum_id),
+        'perfil': perfil1
+    }
+
+    form = Forum_Duvida(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            forum = form.save(commit=False)
+            forum.id = forum_id
+            forum.user = request.user
+            forum.texto = request.POST.get('texto')
+            forum.area.id = request.POST.get('area')
+            forum.save()
+            return HttpResponseRedirect('/forum/')
+    return render(request,'editForum.html',context)
+
+def pergunta_forum(request,forum_id):
+
+    forum = Forum_duvidas.objects.get(id=forum_id)
+    teste = Resp_Forum_Duvidas.objects.filter(forum=forum)
+    context = {
+        'user' : request.user,
+        'forum':Forum_duvidas.objects.get(id=forum_id),
+        'usuario_publicou' : forum.user.username,
+        'respostas' : Resp_Forum_Duvidas.objects.filter(forum = forum).order_by('-pk')
+    }
+
+    form = Resp_Forum_Duvida(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            resp_forum = form.save(commit=False)
+            resp_forum.user = request.user
+            resp_forum.forum = forum
+            resp_forum.save()
+            return HttpResponseRedirect('/pergunta_forum/'+forum_id)
+    return render(request,'pergunta_forum.html',context)
+
+def materia(request):
+    return render(request,'materia.html')
+
+def buscar(request):
+    
+    bus = str(request)
+    #pega apenas a parte que interesa da request
+    busca = ""
+    i = 0
+    for b in bus:
+        if b == '=':
+            i=1
+        if b == '>':
+            i = 0
+        if i==1:
+            busca=str(busca)+str(b)
+    buscar = ""
+    
+    bus = request.POST.get('busca')
+    #inserir em buscar apenas o que interesa com a '
+    for i in range(len(busca)-1):
+        buscar=buscar+busca[i+1]
+    busca = ""
+    #retira a aspa simples
+    for i in range(len(buscar)-1):
+        busca=busca+buscar[i]
+    print(busca)
+
+    context = {
+        'user' : request.user,
+        'perfil' : Perfils.objects.get(id=request.user.id),
+        
+        'usuarios' : User.objects.filter(username = busca),
+        'grupos' : Grupos.objects.filter(titulo = busca),
+        'foruns' : Forum_duvidas.objects.filter(texto=busca),
+        'publicacaos' : Publicacaos.objects.filter(titulo=busca),
+        
+        'tam_usuarios' : len(User.objects.filter(username=busca)),
+        'tam_grupos' : len(Grupos.objects.filter(titulo=busca)),
+        'tam_foruns' : len(Forum_duvidas.objects.filter(texto=busca)),
+        'tam_publicacoes' : len(Publicacaos.objects.filter(titulo=busca)),
+        
+        'buscar' : busca
+    }
+    return render(request,'buscar.html',context)
+
+def editar_usuario(request):
+    form = RegisterForm(request.POST)
+    form1 = Edit_User(request.POST or None)
+    print (request.user.id)
+    user = User.objects.get(id=request.user.id)
+    bus = request.POST.get('busca')
+    context = {
+        'user' : request.user,
+        'form' : form,
+        'form1' : form1
+    }
+    
+    if request.method == 'POST':
+        if form1.is_valid():
+            user.id = request.user.id
+            user.first_name = request.POST.get('first_name')
+            user.last_name = request.POST.get('last_name')
+            user.email = request.POST.get('email')
+            user.save()
+            return render(request,'editar_usuario.html')
+    return render(request,'editar_usuario.html',context)
+
+def exibirPerfil(request):
+    
+    bus = request.POST.get('busca')
+    context = {
+        'user' : request.user,
+        'publicacao' : Publicacaos.objects.filter(user=request.user).order_by('-pk')
+    }
+
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
         user = request.user
-        grupo = Grupo_de_Estudo.objects.get(id=id)
-        grupo.participantes.add(user)
-        return HttpResponseRedirect('/grupo/'+id+'/')
+        perfil = Perfil.objects.filter(user=user)
+        if not perfil:
+            return HttpResponseRedirect('/cadperfil/')
+        else:
+            return render(request,'perfil.html',context)
+
+def showPerfil(request,perfil_id):
+    
+    usuario = User.objects.get(id=perfil_id);
+    bus = request.POST.get('busca')
+    context = {
+        'user' : request.user,
+        'usuario' : usuario,
+        'publicacoes' : Publicacaos.objects.filter(user=usuario).order_by('-pk')
+    }
+    return render(request,'showPerfil.html',context)
+
+#def editarcadPerfil(request):
+   
+#    form = ProfileForm(request.POST,request.FILES)
+#    context = {
+#        'form' : form,
+#        'perfil' : Perfils.objects.get(id=request.user.id)
+#    }
+#
+#    if not request.user.is_authenticated():
+#        return render(request, 'index.html')
+#    else:
+#        if request.method == "POST":
+#            form = ProfileForm(request.POST)
+#            if form.is_valid():
+#                perfil = form.save(commit=False)
+#                perfil.id = request.user.id
+#                perfil.imagem_perfil = request.FILES.get('anexo', False)
+#                perfil.user = request.user
+#                perfil.save()
+#                return HttpResponseRedirect('/perfil/')
+#        return render(request,'Cad_Perfil.html',context)
+
+def obt_Estudo(request):
+    form = CadAreaForm()
+    if request.method == "POST":
+        form = CadAreaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            #return HttpResponseRedirect('/perfil/') pensar no que fazer com essa tela de chamada aqui
+    return render(request,'Cad_Areas.html',{'form':form})
+
+#def exibirPerfil(request):
+#    if not request.user.is_authenticated():
+#        return render(request, 'index.html')
+#    else:
+#        user = request.user
+#        perfil = Perfil.objects.filter(user=user)
+#        siglePerfil = perfil[0]
+#        context = {
+#            'perfil': siglePerfil
+#        }
+#        return render(request,'showPerfil.html',context)
 
 
-def sairGrupo(request,id):
-    if not request.user.is_authenticated():
-        return render(request, 'index.html')
-    else:
-        user = request.user
-        grupo = Grupo_de_Estudo.objects.get(id=id)
-        grupo.participantes.remove(user)
-        return HttpResponseRedirect('/grupo/'+id+'/')
+def editPublicacoes(request,publicacao_id):
+
+    form = Publicacao(request.POST, request.FILES)
+    bus = request.POST.get('busca')
+    context = {
+        'user' : request.user,
+        'form' : form,
+        'publicacao' : Publicacaos.objects.get(id=publicacao_id),
+        'perfil' : Perfils.objects.get(id=request.user.id)
+    }
+
+    p = Publicacaos.objects.get(id=publicacao_id)
+
+    if request.method == 'POST' and form.is_valid():
+        publicacaos = form.save(commit=False)
+        publicacaos.id = publicacao_id
+        publicacaos.anexo = p.anexo
+        publicacaos.user = request.user
+        publicacaos.titulo = request.POST.get('titulo')
+        publicacaos.texto = request.POST.get('texto')
+        print (request.POST.get('area'))
+        publicacaos.area.id = request.POST.get('area')
+        publicacaos.save()
+        return HttpResponseRedirect('/exibirPerfil/')
+    return render(request,'editPublicacoes.html',context)
+
+def removePublicacoes(request,publicacao_id):
+
+    form = Publicacao(request.POST, request.FILES)
+    bus = request.POST.get('busca')
+    context = {
+        'user' : request.user,
+    }
+
+    if request.method == 'POST':
+        Publicacaos.objects.get(id=publicacao_id).delete()
+        return HttpResponseRedirect('/exibirPerfil/')
+    return render(request,'removePublicacao.html',context)  
