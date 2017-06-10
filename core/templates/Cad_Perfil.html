@@ -36,8 +36,8 @@
 	      			<input type="email" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
 	    		</div>
 	    		<button>
-	      			<div class="input-group-addon">
-	      				<span class="glyphicon glyphicon-search" ></span>
+	      			<div class="">
+	      				<span class="glyphicon glyphicon-search btn" ></span>
       			 	</div>
 	      		</button>
 	  		</div>
@@ -53,7 +53,7 @@
 	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
 		<br>
 		<div class="dropdown">
-			<button class="glyphicon glyphicon-user" type="button" data-toggle="dropdown">Você<span class="caret"></span>
+			<button class="glyphicon glyphicon-user btn" type="button" data-toggle="dropdown">Você<span class="caret"></span>
 			</button>
 	  		<ul class="dropdown-menu">
 		    	<li><a href="/edit_user/">Editar perfil</a></li>
@@ -85,8 +85,10 @@
 		<a href="/exibirPerfil/">
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h3 class="text-capitalize">
-					<img class="usu img-responsive" src="{% static 'img/logo_menor.png' %}">
+					{% if perfil.imagem_perfil %}
+					<img class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">
 					<br>
+					{% endif %}
 					<!--{ variavel com o nome do usuario }-->
 					{{user.username}}
 				</h3>

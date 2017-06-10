@@ -135,15 +135,9 @@
 				<!--opções-->
 				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
 					<select name="area">
-						<option value="8">Administração</option>
-					  	<option value="10">Biologia</option>
-					  	<option value="4">Enfermagem</option>
-					  	<option value="7">História</option>
-					  	<option value="1">Matemática</option>
-					  	<option value="5">Medicina</option>
-					  	<option value="6">Nutrição</option>
-					  	<option value="9">Pedagogia</option>
-					  	<option value="2">SI</option>
+					  	{% for obt in obt %}
+					  	<option value="{{obt.id}}">{{obt.nome}}</option>
+					  	{% endfor %}
 					</select> 
 			  	</div>
 

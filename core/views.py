@@ -84,16 +84,16 @@ def cadastro(request):
     return render(request,'cadastro.html',context)
 
 def perfil(request):
-    bus = request.POST.get('busca')
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
+        bus = request.POST.get('busca')
         user = request.user
         perfil = Perfil.objects.filter(user=user)
         if not perfil:
             return HttpResponseRedirect('/cadperfil/')
         else:
-            return HttpResponseRedirect('/exibirPerfil/')
+            return HttpResponseRedirect('/exibirSelfPerfil/')
 
 def cadPerfil(request):
     if not request.user.is_authenticated():
@@ -150,10 +150,17 @@ def cadGrupoDeestuds(request):
     user = request.user
     form = CadGrupForm()
     perfil = Perfil.objects.filter(user=user)
-    perfil1 = perfil[0]
+    if perfil:
+        perfil1 = perfil[0]
+    else:
+        perfil1 = Perfil()
+        perfil1.user = request.user
+        perfil1.save()
+
     if request.method == "POST":
         form = CadGrupForm(request.POST)
         if form.is_valid():
+            print("drcfvg")
             area = get_object_or_404(Obt_Estudo,id=request.POST.get('area',''))
             aux = form.save(commit=False)
             aux.user_adm = perfil1
@@ -161,8 +168,10 @@ def cadGrupoDeestuds(request):
             aux.save()
             aux.area.add(area)
             aux.participantes.add(request.user)
+            return HttpResponseRedirect('/seu_gruposource/')
     context = {
-        'perfil' : Perfils.objects.get(id=request.user.id),
+        'obt' : Obt_Estudo.objects.all(),
+        'perfil' : perfil1,
         'form': form
     }
     return render(request,'criarGrupo.html',context)
@@ -187,13 +196,14 @@ def showGrupo(request):#usar o metodos de pegar as os dados tranforma em lista e
     allGrups = []
     for grupo in grupos:
         listauser = list(grupo.participantes.all())
+        print(listauser)
         if request.user in listauser:
             allGrups.append(grupo)
 
     context = {
-        'grupos':allGrups
+        'grupos':allGrups,
+        'perfil' : Perfils.objects.get(user=request.user),
     }
-
     return render(request,"grupos.html",context)
 
 
@@ -410,7 +420,7 @@ def buscar(request):
 
     context = {
         'user' : request.user,
-        'perfil' : Perfils.objects.get(id=request.user.id),
+        'perfil' : Perfils.objects.get(user=request.user),
         
         'usuarios' : User.objects.filter(username = busca),
         'grupos' : Grupos.objects.filter(titulo = busca),
@@ -559,3 +569,23 @@ def removePublicacoes(request,publicacao_id):
         Publicacaos.objects.get(id=publicacao_id).delete()
         return HttpResponseRedirect('/exibirPerfil/')
     return render(request,'removePublicacao.html',context)  
+
+    
+def participatedGrupo(request,id):
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:
+        user = request.user
+        grupo = Grupo_de_Estudo.objects.get(id=id)
+        grupo.participantes.add(user)
+        return HttpResponseRedirect('/grupo/'+id+'/')
+
+
+def sairGrupo(request,id):
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:
+        user = request.user
+        grupo = Grupo_de_Estudo.objects.get(id=id)
+        grupo.participantes.remove(user)
+        return HttpResponseRedirect('/grupo/'+id+'/')

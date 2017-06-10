@@ -21,14 +21,17 @@ urlpatterns = [
     url(r'^editarcadPerfil/$', views.editarcadPerfil, name='editarcadPerfil'),
     url(r'^showPerfil/(?P<perfil_id>\d+)/$', views.showPerfil, name='showPerfil'),
     url(r'^obt_Estudo/$', views.obt_Estudo, name='obt_Estudo'),
-    url(r'^exibirPerfil/$', views.exibirPerfil, name='exibirPerfil'),
+    url(r'^exibirPerfil/$', views.perfil, name='exibirPerfil'),
+    url(r'^exibirSelfPerfil/$', views.exibirPerfil, name='exibirselfPerfil'),
 
     #grupos de estudos
     url(r'^grupo/$', views.showGrupo, name='grupo'),
     url(r'^criarGrupos/$', views.cadGrupoDeestuds, name='grupos'),
     url(r'^grupo/(?P<id>\d+)/$', views.showSingleGupo, name='gruposSingle'),
     url(r'^pucacaogrupo/(?P<id>\d+)/$', views.showSinglePublicateGrupo, name='showSinglePublicateGrupo'),
-    url(r'^seu_grupo/$', views.seu_grupo, name='seu_grupo'),
+    url(r'^seu_grupo/$', views.showGrupo, name='seu_grupo'),
+    url(r'^participaGrupo/(?P<id>\d+)/$', views.participatedGrupo, name='participatedGrupo'),
+    url(r'^sair/(?P<id>\d+)/$', views.sairGrupo, name='sairGrupo'),
 
     #forum e busca
     url(r'^forum/$', views.forum, name='forum'),
