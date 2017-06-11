@@ -120,7 +120,7 @@ class Coment_Publicacao_Grupo_de_Estudo(models.Model):
 		
 class Seguidor(models.Model):
 	user  =  models.OneToOneField(User, related_name='amigos')
-	amigos = models.ForeignKey(User, default=1)
+	amigos = models.ManyToManyField(User,blank=True)
 
 class EditUser(models.Model):
 	username = models.CharField(max_length=100)

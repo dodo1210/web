@@ -49,18 +49,19 @@ def loggedin(request):#aqui renderisa a tela com as reques de users(vai ser melh
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
-        user = request.user
-        perfil1 = Perfil.objects.filter(user=user)
-        if perfil1:
-            aux = perfil1[0]
-        else:
-            aux = Perfil()
+        return HttpResponseRedirect('/home/')
+       # user = request.user
+       # perfil1 = Perfil.objects.filter(user=user)
+       # if perfil1:
+        #    aux = perfil1[0]
+       # else:
+       #     aux = Perfil()
             
-        context = {#criação de um dicionario para questões organisacionais 
-            'user' : request.user,
-            'perfil': aux
-        }
-        return render_to_response('home.html',context);#renderisação de um form principal passando os dados de usuarios 
+       # context = {#criação de um dicionario para questões organisacionais 
+       #     'user' : request.user,
+       #     'perfil': aux
+       # }
+       # return render_to_response('home.html',context);#renderisação de um form principal passando os dados de usuarios 
 
 def logout(request):#essa função é pronta do django que faz logout apeans alterei o necessario
     c = {}
@@ -271,10 +272,16 @@ def home(request):
     
     form = Publicacao(request.POST, request.FILES)
     publicacaos = None
-
+    user = request.user
+    perfil1 = Perfil.objects.filter(user=user)
+    if perfil1:
+        aux = perfil1[0]
+    else:
+        aux = Perfil()
     context = {
-        'user' : request.user,
+        'user' : user,
         'form' : form,
+        'perfil': aux,
         'publicacao' : Publicacaos.objects.all().order_by('-pk')
     }
 
@@ -459,18 +466,17 @@ def editar_usuario(request):
     return render(request,'editar_usuario.html',context)
 
 def exibirPerfil(request):
-    
-    bus = request.POST.get('busca')
-    context = {
-        'user' : request.user,
-        'publicacao' : Publicacaos.objects.filter(user=request.user).order_by('-pk')
-    }
-
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
+        bus = request.POST.get('busca')
         user = request.user
         perfil = Perfil.objects.filter(user=user)
+        context = {
+            'user' : request.user,
+            'publicacao' : Publicacaos.objects.filter(user=request.user).order_by('-pk'),
+            'perfil':perfil[0],
+        }
         if not perfil:
             return HttpResponseRedirect('/cadperfil/')
         else:
@@ -479,11 +485,26 @@ def exibirPerfil(request):
 def showPerfil(request,perfil_id):
     
     usuario = User.objects.get(id=perfil_id);
+    perfil = Perfil.objects.filter(user=usuario)
+    user = request.user
+    all_friends = []
+    amisades = Seguidor.objects.filter(user=user)
+    if amisades:   
+        all_friends = list(amisades[0].amigos.all())
+        print(all_friends)
+    if perfil:
+        perfil1 = perfil[0]
+    else:
+        perfil1 = Perfil()
+        perfil1.user = usuario
+        perfil1.save()
     bus = request.POST.get('busca')
     context = {
-        'user' : request.user,
+        'user' : user,
         'usuario' : usuario,
-        'publicacoes' : Publicacaos.objects.filter(user=usuario).order_by('-pk')
+        'publicacoes' : Publicacaos.objects.filter(user=usuario).order_by('-pk'),
+        'perfil': perfil1,
+        'all_friends' : all_friends
     }
     return render(request,'showPerfil.html',context)
 
@@ -589,3 +610,95 @@ def sairGrupo(request,id):
         grupo = Grupo_de_Estudo.objects.get(id=id)
         grupo.participantes.remove(user)
         return HttpResponseRedirect('/grupo/'+id+'/')
+
+
+def seguindo(request):
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:
+        user = request.user
+        perfil = Perfil.objects.filter(user=user)
+        seguindo = Seguidor.objects.filter(user=user)
+        if perfil:
+            perfil1 = perfil[0]
+        else:
+            perfil1 = Perfil()
+        if not seguindo:
+            seguindo1 = Seguidor()
+            seguindo1.user = user
+            seguindo1.save()
+        else:
+            seguindo1 = seguindo[0]
+        teste = list(seguindo1.amigos.all())
+        #construir base com o append
+        list_foll = []
+        for single in teste:
+            simple = Perfil.objects.filter(user=single)
+            list_foll.append(simple[0])
+        context = {
+            'segindo' : list_foll,
+            'user':request.user,
+            'perfil': perfil1,
+        }
+        return render(request,'seguindo.html',context)
+
+def seguidores(request):
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:
+        user = request.user
+        perfil = Perfil.objects.filter(user=user)
+        if perfil:
+            perfil1 = perfil[0]
+        else:
+            perfil1 = Perfil()
+        seguindores = Seguidor.objects.all()
+        list_foll = []
+        for single in seguindores:
+            anilise = list(single.amigos.all())
+            if user in anilise:
+                simple = Perfil.objects.filter(user=analise)
+                list_foll.append(simple[0])
+        context = {
+            'segindores' : list_foll,
+            'user':request.user,
+            'perfil': perfil1,
+        }
+        return render(request,'seguidores.html',context)
+
+def seguir(request,id):
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:
+        user = request.user
+        usuario = User.objects.get(id=id)
+        perfil1 = Perfil.objects.filter(user=usuario)
+        perfil = perfil1[0]
+        fol = perfil.user
+        seguindo = Seguidor.objects.filter(user=user)
+        if not seguindo:
+            seguindo1 = Seguidor()
+            seguindo1.user = user
+            seguindo1.save()
+        else:
+            seguindo1 = seguindo[0]
+        seguindo1.amigos.add(fol)
+        return HttpResponseRedirect('/showPerfil/'+id+'/')
+
+
+
+def deixarseguir(request,id):
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:
+        user = request.user
+        usuario = User.objects.get(id=id)
+        perfil = Perfil.objects.get(user=usuario)
+        fol = perfil.user
+        seguindo = Seguidor.objects.filter(user=user)
+        seguindo1 = seguindo[0]
+        seguindo1.amigos.remove(fol)
+        return HttpResponseRedirect('/showPerfil/'+id+'/')
+
+
+#falar do __icontains

@@ -30,13 +30,13 @@
 	<!--buscar-->
 	<div id="buscar" class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
 		<br>
-		<form action="/buscar/"  class="form-horizont">
+		<form class="form-horizont">
 	  		<div class="form-group">
 	    		<div class="col-sm-10">
-	      			<input name="busca" type="text" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
+	      			<input type="email" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
 	    		</div>
 	    		<button class="btn">
-	      			<div class="input-group-addon">
+	      			<div>
 	      				<span class="glyphicon glyphicon-search" ></span>
       			 	</div>
 	      		</button>
@@ -81,22 +81,18 @@
 	<!--info usuario-->
 	<div id="info" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 
-
 		<!--nome e foto do usuário-->
 		<a href="/exibirPerfil/">
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h3 class="text-capitalize">
-					{% if perfil.imagem_perfil %}
-					<img class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">
+					<img class="usu img-responsive" src="{% static 'img/logo_menor.png' %}">
 					<br>
-					{% endif %}
 					<!--{ variavel com o nome do usuario }-->
 					{{user.username}}
 				</h3>
 			</div>
 		</a>
 		<br>
-
 
 		<!--grupos usuario-->
 		<a href="/seu_grupo/">
@@ -112,61 +108,43 @@
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h4><strong>FÓRUNS</strong></h4>
 			</div>
-		</a>	
+		</a>
 
 	</div>
 
-	<!--timeline-->
 	<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
 
-		<!--linha do tempo-->
-		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-			<!--date nome-->
-			<br>
+		<div id="publicar" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
-			<form class="form-horizontal" action="" enctype="multpart/form-data" method="POST">
-				{% csrf_token %}
-				
-				<label>Título:</label>
-				<input value="{{publicacao.titulo}}" name="titulo" type="text" class="form-
-				control"><br>
+			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
-				<label>Texto:</label><br>
-				<textarea name="texto" placeholder="Publique algo que deseje" class="form-control" rows="5" id="comment"> {{publicacao.texto}} </textarea>
-
-				<!--opções-->
-				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
-					<label>Área {{publicacao.area}}:</label><br>
-					<select name="area">
-						<option value="{{publicacao.area.id}}">{{publicacao.area.nome}}</option>
-						<option value="8">Administração</option>
-					  	<option value="10">Biologia</option>
-					  	<option value="4">Enfermagem</option>
-					  	<option value="7">História</option>
-					  	<option value="1">Matemática</option>
-					  	<option value="5">Medicina</option>
-					  	<option value="6">Nutrição</option>
-					  	<option value="9">Pedagogia</option>
-					  	<option value="2">SI</option>
-					</select> 
-				</div>
-
-				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
-					
-				</div>
-
-				<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2"></div>				
-				<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+			<!--Aqui vc coloca o for onde vai ter a imagem do seguidor o nome do seguidor e o link para ir a págia daquele seguidor-->
+			
+				{% for single in segindo%}
 					<br>
-					<button type="submit" class="btn">Editar</button></form><br>
-				</div>
-			</form>
+					<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3">
+						<!--imagem do perfil do cara-->
+						{%if single.imagem_perfil %}
+							<img src="{{single.imagem_perfil.url}}">
+						{%else%}
+							<img src="{% static 'img/logo_menor.png' %}">
+						{%endif%}
+					</div>
+					<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
+						<!--Nome e link para a página do cara-->
+						<a href="/showPerfil/{{single.user.id}}"><h3>{{single.user.first_name}} {{single.user.last_name}}</h3></a>
+					</div>
+					<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3"></div>
+
+					<hr>
+				{%endfor%}
+				<!--final do for-->
+			</div>
 
 		</div>
 		<br>
 
 	</div>
-
 
 		<!--assuntos relacionados-->
 	<div id="relacionados" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
@@ -188,12 +166,13 @@
 		</a>
 	</div>
 
+
+	<!--vazio-->
 	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
 
 	</div>
 
 </div>
-
 
 </body>
 </html>

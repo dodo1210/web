@@ -43,4 +43,10 @@ urlpatterns = [
     url(r'^editarPublicacoes/(?P<publicacao_id>\d+)/$', views.editPublicacoes, name='editarPublicacoes'),
     url(r'^excluirPublicacoes/(?P<publicacao_id>\d+)/$', views.removePublicacoes, name='excluir'),
     url(r'^viewPublicacao/(?P<publicacao_id>\d+)/$', views.viewPublicacao, name='viewPublicacao'),
+
+    #seguirdores 
+    url(r'^seguir/(?P<id>\d+)/$', views.seguir, name='seguir'),
+    url(r'^deixarseguir/(?P<id>\d+)/$', views.deixarseguir, name='deixarseguir'),
+    url(r'^seguindo/$', views.seguindo, name='seguindo'),
+    url(r'^seguidores/$', views.seguidores, name='seguidores'),
 ]
