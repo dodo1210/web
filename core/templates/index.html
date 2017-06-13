@@ -32,6 +32,9 @@
 {% if error_message %} <h1 style="color:white;">{{error_message}}</h1> {% endif %}
 <form class="form-horizontal" action="/auth/" method="post">
 {% csrf_token %}
+{% for f in form %}
+  {{f.errors}}
+{% endfor %}
 <div class="form-group">
 <p>Conta</p>
     <div class="col-sm-10">

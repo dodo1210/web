@@ -9,7 +9,6 @@
 
 #menu a img:hover{
 	background: #888;
-	border-radius: 60%;
 }
 
 #logo{
@@ -20,17 +19,12 @@ input{
 	width: 100%;
 }
 
-.usu{
-	width: 30%;
-}
-
 #info div{
 	background-color: white;
 }
 
 #info div:hover{
 	background-color: #555;
-	box-shadow: 6px 6px 6px #333;
 	color: white;
 }
 
@@ -38,9 +32,6 @@ button{
 	background-color: #ccc;
 }
 
-button:hover{
-	box-shadow: 4px 4px 4px #333;
-}
 
 #publicacoes{
 	margin-top: 10%;
@@ -52,7 +43,6 @@ button:hover{
 
 #relacionados div:hover{
 	background-color: #555;
-	box-shadow: 6px 6px 6px #333;
 	color: white;
 }
 
@@ -74,14 +64,9 @@ button:hover{
 	background-color: #ccc;
 }
 
-#usu_timeline{
-	width: 10%;
-	float: left;
-}
 
 #post{
-	width: 90%;
-	border-radius: 3%;
+	width: 100%;
 	text-align: center;
 }
 

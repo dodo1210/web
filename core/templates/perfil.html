@@ -36,9 +36,9 @@
 	    		<div class="col-sm-10">
 	      			<input type="text" name="busca" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
 	    		</div>
-	    		<button>
-	      			<div class="btn">
-	      				<span class="glyphicon glyphicon-search btn" ></span>
+	    		<button class="btn">
+	      			<div>
+	      				<span class="glyphicon glyphicon-search" ></span>
       			 	</div>
 	      		</button>
 	  		</div>
@@ -81,15 +81,14 @@
 		<div id="perfil" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
 			<div id="perfil" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<div id="perfil" class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+				<div id="perfil" class="col-sm-5 col-md-5 col-xs-12 col-lg-5">
+				<br>
 					{% if perfil.imagem_perfil %}
-					<img class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">
-					<br>
+					<img class="usu img-responsive"	 src="{{perfil.imagem_perfil.url}}">
 					{% endif %}
 					<!--{ variavel com o nome do usuario }-->
-					{{user.username}}
+					<h2 class="text-capitalize">{{user.username}}</h2>
 				</div>
-				<h2 class="text-capitalize">{{user.username}}</h2>
 
 			</div>
 
@@ -105,12 +104,12 @@
 
 				<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 					<h3>Seguindo</h3>
-					<a href="#"><h3>11</h3></a>
+					<a href="/seguindo/"><h3>{{seguindo}}</h3></a>
 				</div>
 
 				<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 					<h3>Seguidores</h3>
-					<a href="#"><h3>11</h3></a>
+					<a href="/seguidores/"><h3>{{seguidores}}</h3></a>
 				</div>
 
 				<!--Vazio-->
@@ -197,7 +196,7 @@
 			</div>
 
 			<!--visualizar-->
-			<a id="visualizar" href="">
+			<a id="visualizar" href="/viewPublicacao/{{publicacao.id}}/">
 				<button type="button" class="btn btn-default">
 					<h4><span style="float: left;" class=" glyphicon glyphicon-eye-open"></span> VISUALIZAR</h4>
 				</button>

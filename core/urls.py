@@ -32,6 +32,9 @@ urlpatterns = [
     url(r'^seu_grupo/$', views.showGrupo, name='seu_grupo'),
     url(r'^participaGrupo/(?P<id>\d+)/$', views.participatedGrupo, name='participatedGrupo'),
     url(r'^sair/(?P<id>\d+)/$', views.sairGrupo, name='sairGrupo'),
+    url(r'^deletar/(?P<id>\d+)/$', views.excluirGrupo, name='excluirGrupo'),
+    url(r'^editar/(?P<id>\d+)/$', views.editarGrupo, name='editarGrupo'),
+    url(r'^deletComentPost/(?P<id>\d+)/$', views.deletComentPost, name='deletComentPost'),
 
     #forum e busca
     url(r'^forum/$', views.forum, name='forum'),

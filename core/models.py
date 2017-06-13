@@ -42,7 +42,6 @@ class Perfil(models.Model):
 class Publicacao(models.Model):
 	user   = models.ForeignKey(User, default=1)
 	titulo = models.CharField(verbose_name='Titulo',max_length=100)
-	perfil = models.ForeignKey(Perfil,  default=1)
 	texto  = models.TextField(verbose_name='Texto', blank=True)
 	anexo  = models.FileField(verbose_name='Anexo',blank=True, upload_to=user_directory_path)
 	area   = models.ManyToManyField(Obt_Estudo)

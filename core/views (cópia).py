@@ -42,10 +42,7 @@ def auth_view(request):# esse metodo é o mais importante de login
         auth.login(request, user)#aqui é sogado e construido a request com os dados de user
         return HttpResponseRedirect('/loggedin/')#tela de feeds chamada se der certo logui
     else:
-        c = {}
-        c.update(csrf(request))
-        c.update({'error_message': 'Senha ou Usuario Incorretos'})
-        return render(request, 'envios.html', c)# ususario e senhas invalidas arruamar a pagina para exibir erro
+        return render(request, 'envios.html', {'error_message': 'Invalid login'})# ususario e senhas invalidas arruamar a pagina para exibir erro
 
 
 def loggedin(request):#aqui renderisa a tela com as reques de users(vai ser melhorado para ir com todas as informações)
@@ -88,8 +85,6 @@ def cadastro(request):
     return render(request,'cadastro.html',context)
 
 def perfil(request):
-    bus = request.POST.get('busca')
-
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
@@ -102,8 +97,6 @@ def perfil(request):
             return HttpResponseRedirect('/exibirSelfPerfil/')
 
 def cadPerfil(request):
-    bus = request.POST.get('busca')
-
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
@@ -123,8 +116,6 @@ def cadPerfil(request):
         return render(request,'Cad_Perfil.html',{'form':form})
 
 def editarcadPerfil(request):
-    bus = request.POST.get('busca')
-
     user = request.user.id
     perfil1 = Perfil.objects.filter(user=user)
     aux = perfil1[0]
@@ -148,8 +139,6 @@ def editarcadPerfil(request):
         return render(request,'Cad_Perfil.html',{'form':form})
 
 def obt_Estudo(request):
-    bus = request.POST.get('busca')
-
     form = CadAreaForm()
     if request.method == "POST":
         form = CadAreaForm(request.POST)
@@ -159,8 +148,6 @@ def obt_Estudo(request):
     return render(request,'Cad_Areas.html',{'form':form})
 
 def cadGrupoDeestuds(request):
-    bus = request.POST.get('busca')
-
     user = request.user
     form = CadGrupForm()
     perfil = Perfil.objects.filter(user=user)
@@ -174,6 +161,7 @@ def cadGrupoDeestuds(request):
     if request.method == "POST":
         form = CadGrupForm(request.POST)
         if form.is_valid():
+            print("drcfvg")
             area = get_object_or_404(Obt_Estudo,id=request.POST.get('area',''))
             aux = form.save(commit=False)
             aux.user_adm = perfil1
@@ -181,7 +169,7 @@ def cadGrupoDeestuds(request):
             aux.save()
             aux.area.add(area)
             aux.participantes.add(request.user)
-            return HttpResponseRedirect('/seu_grupo/')
+            return HttpResponseRedirect('/seu_gruposource/')
     context = {
         'obt' : Obt_Estudo.objects.all(),
         'perfil' : perfil1,
@@ -205,8 +193,6 @@ def cadGrupoDeestuds(request):
 
 
 def showGrupo(request):#usar o metodos de pegar as os dados tranforma em lista e utilisar para comparação
-    bus = request.POST.get('busca')
-
     grupos  = Grupo_de_Estudo.objects.all()
     allGrups = []
     for grupo in grupos:
@@ -217,14 +203,12 @@ def showGrupo(request):#usar o metodos de pegar as os dados tranforma em lista e
 
     context = {
         'grupos':allGrups,
-        'perfil' : Perfils.objects.get(user=request.user)
+        'perfil' : Perfils.objects.get(user=request.user),
     }
     return render(request,"grupos.html",context)
 
 
 def showSingleGupo(request,id):
-    bus = request.POST.get('busca')
-
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
@@ -243,29 +227,25 @@ def showSingleGupo(request,id):
                 publicate.perfil = perfil1
                 publicate.save()
                 publicate.area.add(area)
-                print(grupo.id)
-                return HttpResponseRedirect('/grupo/'+grupo.id)
         postes = Publicacao_Grupo_de_Estudo.objects.filter(grupo=grupo)
         form = FormPublicacao_Grupo_de_Estudo()
         context = {
             'grupo': grupo,
             'form' : form,
             'post' :postes,
-            'publis' : postes,
-            'obt_estudos' : Obt_Estudo.objects.all(),
-         }
+            'publis' : postes
+        }
         return render(request,'grupo.html',context)
 
 
 
 def showSinglePublicateGrupo(request,id):
-    bus = request.POST.get('busca')
-
     publicate = Publicacao_Grupo_de_Estudos.objects.get(id=id)
     print (publicate.titulo)
     if request.method == "POST":
             form = FormComent_Publicacao_Grupo_de_Estudo(request.POST)
             if form.is_valid():
+                print ("werw")
                 user  = request.user
                 perfil = Perfil.objects.filter(user=user)
                 perfil1 = perfil[0]
@@ -278,42 +258,18 @@ def showSinglePublicateGrupo(request,id):
                 comentario.save()
     coment = Coment_Publicacao_Grupo_de_Estudos.objects.filter(publi=publicate).order_by('-pk')
     form =  FormComent_Publicacao_Grupo_de_Estudo()
-
-    tam = len(publicate.anexo.url)
-    print(tam)
-    tipo = ""
-    nome = ""
-
-    while tam-1 >=0:
-        if(publicate.anexo.url[tam-1]=='.'):
-            break
-        tipo = tipo+publicate.anexo.url[tam-1]
-        tam=tam-1
-
-    tam=tam-1
-    while tam-1 >=0:
-        if(publicate.anexo.url[tam-1]=='/'):
-            break
-        nome = nome+publicate.anexo.url[tam-1]
-        tam=tam-1
-    nome = nome[::-1]
-    print (coment)
     context = {
             'publicacao': publicate,
             'form' : form,
             'coments' :coment,
             'grupo' : Grupos.objects.get(id = id),
-            'perfis' : Perfil.objects.filter(user = request.user),
-            'perfil' : Perfil.objects.get(user = request.user),
-            'anexo' : tipo,
-            'nome_anexo' : nome,
     }
     return render(request,'showPublicate.html',context)
 
 #douglas
 
 def home(request):
-
+    
     form = Publicacao(request.POST, request.FILES)
     publicacaos = None
     user = request.user
@@ -322,21 +278,11 @@ def home(request):
         aux = perfil1[0]
     else:
         aux = Perfil()
-
-    publicacao = Publicacaos.objects.all().order_by('-pk')
-    
-    if publicacao:
-        print("Ffsdf")
-    else:
-        print("chb vnbn ")
-
     context = {
         'user' : user,
         'form' : form,
         'perfil': aux,
-        'publicacao' : publicacao,
-        'perfis' : Perfils.objects.all(), #codigo devera ser alterado apenas para mostrar os seguidores.
-        'obt_estudos' : Obt_Estudo.objects.all()
+        'publicacao' : Publicacaos.objects.all().order_by('-pk')
     }
 
     bus = request.POST.get('busca')
@@ -344,47 +290,21 @@ def home(request):
         publicacaos = form.save(commit=False)
         publicacaos.anexo = request.FILES.get('anexo', False)
         publicacaos.user = request.user
-        print(request.POST.get('area'))
         publicacaos.save()
-        return HttpResponseRedirect('/home/')
+        return render(request,'home.html',context)
     return render(request,'home.html',context)
 
 def viewPublicacao(request,publicacao_id):
-
-    bus = request.POST.get('busca')
 
     form = Coment_Publi(request.POST or None)
     publi = Publicacaos.objects.get(id=publicacao_id)
     comentarios = Coment_Publis.objects.filter(publi=publi).order_by('-pk')
 
-    tam = len(publi.anexo.url)
-    print(tam)
-    tipo = ""
-    nome = ""
-
-    while tam-1 >=0:
-        if(publi.anexo.url[tam-1]=='.'):
-            break
-        tipo = tipo+publi.anexo.url[tam-1]
-        tam=tam-1
-
-    tam=tam-1
-    while tam-1 >=0:
-        if(publi.anexo.url[tam-1]=='/'):
-            break
-        nome = nome+publi.anexo.url[tam-1]
-        tam=tam-1
-    nome = nome[::-1]
-
     context = {
         'user' : request.user,
         'form' : form,
         'publicacao' : publi,
-        'comentarios' : comentarios,
-        'anexo' : tipo,
-        'nome_anexo' : nome,
-        'perfis' : Perfils.objects.all(),
-        'perfil' : Perfil.objects.get(user=request.user)
+        'comentarios' : comentarios
     }
 
     if request.method == 'POST':
@@ -403,7 +323,6 @@ def seu_grupo(request):
         'user' : request.user,
         'grupos' : Grupos.objects.all(),
         'seu_grupo' : Grupos.objects.filter(participantes = request.user),
-        'perfil' : Perfil.objects.get(user=request.user) ,
     }
 
     return render(request,'seu_grupo.html',context)
@@ -413,7 +332,6 @@ def grupo(request):
     return render(request,'grupo.html')
 
 def forum(request):
-    bus = request.POST.get('busca')
     perfil = Perfils.objects.filter(user=request.user)
     if perfil:
         perfil1 = perfil[0]
@@ -422,8 +340,7 @@ def forum(request):
     context = {
         'user' : request.user,
         'foruns':Forum_duvidas.objects.filter(user=request.user).order_by('-pk'),
-        'perfil':perfil1,
-        'obt' : Obt_Estudo.objects.all()
+        'perfil':perfil1
     }
 
     form = Forum_Duvida(request.POST or None)
@@ -436,8 +353,6 @@ def forum(request):
     return render(request,'forum.html',context)
 
 def editForum(request,forum_id):
-    bus = request.POST.get('busca')
-
     perfil = Perfils.objects.filter(user=request.user)
     if perfil:
         perfil1 = perfil[0]
@@ -462,7 +377,6 @@ def editForum(request,forum_id):
     return render(request,'editForum.html',context)
 
 def pergunta_forum(request,forum_id):
-    bus = request.POST.get('busca')
 
     forum = Forum_duvidas.objects.get(id=forum_id)
     teste = Resp_Forum_Duvidas.objects.filter(forum=forum)
@@ -483,9 +397,11 @@ def pergunta_forum(request,forum_id):
             return HttpResponseRedirect('/pergunta_forum/'+forum_id)
     return render(request,'pergunta_forum.html',context)
 
-def buscar(request):
-    bus = request.POST.get('busca')
+def materia(request):
+    return render(request,'materia.html')
 
+def buscar(request):
+    
     bus = str(request)
     #pega apenas a parte que interesa da request
     busca = ""
@@ -528,8 +444,6 @@ def buscar(request):
     return render(request,'buscar.html',context)
 
 def editar_usuario(request):
-    bus = request.POST.get('busca')
-
     form = RegisterForm(request.POST)
     form1 = Edit_User(request.POST or None)
     print (request.user.id)
@@ -538,8 +452,7 @@ def editar_usuario(request):
     context = {
         'user' : request.user,
         'form' : form,
-        'form1' : form1,
-        'perfil' : Perfil.objects.get(user = request.user)
+        'form1' : form1
     }
     
     if request.method == 'POST':
@@ -553,36 +466,16 @@ def editar_usuario(request):
     return render(request,'editar_usuario.html',context)
 
 def exibirPerfil(request):
-    bus = request.POST.get('busca')
-
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
         bus = request.POST.get('busca')
         user = request.user
         perfil = Perfil.objects.filter(user=user)
-        seguindo = Seguidor.objects.filter(user = request.user)
-        
-        segui = []
-        s = None
-        for s in seguindo:
-            segui = (s.amigos.all())
-        seguidores = []
-
-        seguindores = Seguidor.objects.all()
-        list_foll = []
-        for single in seguindores:
-            anilise = list(single.amigos.all())
-            if user in anilise:
-                simple = Perfil.objects.filter(user=single.user)
-                list_foll.append(simple[0])
-        
         context = {
             'user' : request.user,
             'publicacao' : Publicacaos.objects.filter(user=request.user).order_by('-pk'),
             'perfil':perfil[0],
-            'seguindo' : len(segui),
-            'seguidores' : len(list_foll)
         }
         if not perfil:
             return HttpResponseRedirect('/cadperfil/')
@@ -590,8 +483,7 @@ def exibirPerfil(request):
             return render(request,'perfil.html',context)
 
 def showPerfil(request,perfil_id):
-    bus = request.POST.get('busca')
-
+    
     usuario = User.objects.get(id=perfil_id);
     perfil = Perfil.objects.filter(user=usuario)
     user = request.user
@@ -639,8 +531,6 @@ def showPerfil(request,perfil_id):
 #        return render(request,'Cad_Perfil.html',context)
 
 def obt_Estudo(request):
-    bus = request.POST.get('busca')
-
     form = CadAreaForm()
     if request.method == "POST":
         form = CadAreaForm(request.POST)
@@ -713,8 +603,6 @@ def participatedGrupo(request,id):
 
 
 def sairGrupo(request,id):
-    bus = request.POST.get('busca')
-
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
@@ -725,8 +613,6 @@ def sairGrupo(request,id):
 
 
 def seguindo(request):
-    bus = request.POST.get('busca')
-
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
@@ -779,10 +665,8 @@ def seguidores(request):
             'perfil': perfil1,
         }
         return render(request,'seguidores.html',context)
-        
-def seguir(request,id):
-    bus = request.POST.get('busca')
 
+def seguir(request,id):
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
@@ -804,8 +688,6 @@ def seguir(request,id):
 
 
 def deixarseguir(request,id):
-    bus = request.POST.get('busca')
-
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
@@ -818,52 +700,5 @@ def deixarseguir(request,id):
         seguindo1.amigos.remove(fol)
         return HttpResponseRedirect('/showPerfil/'+id+'/')
 
-def excluirGrupo(request,id):
-    if not request.user.is_authenticated():
-        return render(request, 'index.html')
-    else:
-        grupo = Grupo_de_Estudo.objects.get(id=id)
-        grupo.delete()
-        return HttpResponseRedirect('/seu_grupo/')
 
-def editarGrupo(request,id):
-    if not request.user.is_authenticated():
-        return render(request, 'index.html')
-    else:
-        aux = Grupo_de_Estudo.objects.get(id=id)
-        perfil = Perfil.objects.filter(user=request.user)
-        form = CadGrupForm()
-        if perfil:
-            perfil1 = perfil[0]
-        else:
-            perfil1 = Perfil()
-        if request.method == 'POST':
-            form = CadGrupForm(request.POST)
-            if form.is_valid():
-                area = get_object_or_404(Obt_Estudo,id=request.POST.get('area',''))
-                ver = request.FILES.get('imagem_logo', False)
-                if request.POST.get('titulo'):
-                    aux.titulo = request.POST.get('titulo')
-                if ver:
-                    aux.imagem_logo = ver
-                if request.POST.get('desc'):
-                    aux.desc = request.POST.get('desc')
-                aux.save()
-                aux.area.clear()
-                aux.area.add(area)
-                return HttpResponseRedirect('/grupo/'+id+'/')
-        context = {
-            'obt' : Obt_Estudo.objects.all(),
-            'perfil' : perfil1,
-            'form': form
-        }
-        return render(request,'editacriarGrupo.html',context)
-
-def deletComentPost(request,id):
-    if not request.user.is_authenticated():
-        return render(request, 'index.html')
-    else:
-        publicate = Coment_Publicacao_Grupo_de_Estudo.objects.get(id=id)
-        idt = str(publicate.publi.id)
-        publicate.delete()
-        return HttpResponseRedirect('/pucacaogrupo/'+id+'/')
+#falar do __icontains

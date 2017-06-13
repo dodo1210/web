@@ -85,8 +85,10 @@
 		<a href="/exibirPerfil/">
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h3 class="text-capitalize">
-					<img class="usu img-responsive" src="{% static 'img/logo_menor.png' %}">
+					{% if perfil.imagem_perfil %}
+					<img class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">
 					<br>
+					{% endif %}
 					<!--{ variavel com o nome do usuario }-->
 					{{user.username}}
 				</h3>
@@ -116,11 +118,10 @@
 
 		<div id="publicar" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
+			{% for single in segindo%}
 			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
 			<!--Aqui vc coloca o for onde vai ter a imagem do seguidor o nome do seguidor e o link para ir a págia daquele seguidor-->
-			
-				{% for single in segindo%}
 					<br>
 					<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3">
 						<!--imagem do perfil do cara-->
@@ -132,14 +133,19 @@
 					</div>
 					<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
 						<!--Nome e link para a página do cara-->
-						<a href="/showPerfil/{{single.user.id}}"><h3>{{single.user.first_name}} {{single.user.last_name}}</h3></a>
+						<a href="/showPerfil/{{single.user.id}}"><h3 class="text-capitalize">{{single.user.username}}</h3></a>
+						<h5>{{single.user.first_name}} {{single.user.last_name}}</h5>
 					</div>
 					<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3"></div>
+					<br>
+					<br>
 
-					<hr>
-				{%endfor%}
+					<br>
+					<br>
 				<!--final do for-->
 			</div>
+			
+				{%endfor%}
 
 		</div>
 		<br>

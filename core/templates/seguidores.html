@@ -85,8 +85,10 @@
 		<a href="/exibirPerfil/">
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h3 class="text-capitalize">
-					<img class="usu img-responsive" src="{% static 'img/logo_menor.png' %}">
+					{% if perfil.imagem_perfil %}
+					<img class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">
 					<br>
+					{% endif %}
 					<!--{ variavel com o nome do usuario }-->
 					{{user.username}}
 				</h3>
@@ -116,9 +118,12 @@
 
 		<div id="publicar" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
+			{% if not segindores %}
+				
+			{% endif%}
+			{% for single in segindores%}
 			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-
-				{% for single in segindores%}
+				
 					<br>
 					<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3">
 						<!--imagem do perfil do cara-->
@@ -128,16 +133,14 @@
 							<img src="{% static 'img/logo_menor.png' %}">
 						{%endif%}
 					</div>
-					<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
+					<div class="col-sm-9 col-md-9 col-xs-12 col-lg-9">
 						<!--Nome e link para a página do cara-->
-						<a href="/showPerfil/{{single.user.id}}"><h3>{{single.user.first_name}} {{single.user.last_name}}</h3></a>
+						<a href="/showPerfil/{{single.user.id}}"><h3> {{single}}</h3><h5>{{single.user.first_name}} {{single.user.last_name}}</h5></a>
+						<br>
 					</div>
-					<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3"></div>
-
-					<hr>
-				{%endfor%}
+					<br>
 				</div>
-
+			{% endfor %}
 		</div>
 		<br>
 

@@ -84,8 +84,8 @@
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h3 class="text-capitalize">
 					{% if perfil.imagem_perfil %}
-					<img class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">
-					<br>
+						<img class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">
+						<br>
 					{% endif %}
 					<!--{ variavel com o nome do usuario }-->
 					{{user.username}}
@@ -127,22 +127,16 @@
 					<textarea name="texto" placeholder="Publique algo que deseje" class="form-control" rows="5" id="comment"></textarea>
 				</div>
 
-				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+				<div class="col-sm-5 col-md-5 col-xs-12 col-lg-5">
 					<input type="file" name="anexo" value="rdf">
 				</div>
 				
 				<!--opções-->
 				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
 					<select name="area">
-						<option value="8">Administração</option>
-					  	<option value="10">Biologia</option>
-					  	<option value="4">Enfermagem</option>
-					  	<option value="7">História</option>
-					  	<option value="1">Matemática</option>
-					  	<option value="5">Medicina</option>
-					  	<option value="6">Nutrição</option>
-					  	<option value="9">Pedagogia</option>
-					  	<option value="2">SI</option>
+						{% for obj in obt_estudos %}
+							<option value="{{obj.id}}">{{obj.nome}}</option>
+						{% endfor %}
 					</select> 
 			  	</div>
 
@@ -152,40 +146,47 @@
 			  	<!--botão-->
 			  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 			  		<button class="btn"><strong>ENVIAR</strong></button>
+			  		<br>
+			  		<br>
 				</div>
-				<br>
 			</form>
 		</div>
 
 		<div id="vazio_publ" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
 		</div>
-
 		<!--linha do tempo-->
+		{% if publicacao  %}
 		{% for publicacao in publicacao %}
 		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 			<!--date nome-->
 			<br>
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<a href="#"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
-				{% if user == publicacao.user %}
-				<a href="/exibirPerfil/"><h3 class="text-capitalize">{{publicacao.user.username}}</h3></a>
-				{% else %}
-				<a href="/showPerfil/{{publicacao.user.id}}"><h3 class="text-capitalize">{{publicacao.user.username}}</h3></a>
-				{%endif%}
-				<br>
-				<small>{{publicacao.data}}</small>
-				<h1> {{publicacao.titulo}} </h1>
+				{% for perfil in perfis %}
+					{% if perfil.user.username == publicacao.user.username %}
+						{% if perfil.imagem_perfil %}
+							<a href="/showPerfil/{{publicacao.user.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">{{perfil.user.username}}</a>
+						{% endif %}
+						<h6><small>{{publicacao.data}}</small></h6>
+					{{break}}
+					{% endif %}
+				{% endfor %}
+				
+				<h1>Título: {{publicacao.titulo}} </h1>
+
 			</div>
 
 			<!--publicação-->
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				{{publicacao.texto}}<br>
-					{% if publicacao.anexo == True %}
+				{{publicacao.texto}}<hr>
+				{% if publicacao.anexo %}
+					<h1>{{publicacao.anexo.url}}</h1>
 					<img src="{{publicacao.anexo.url}}">
-					{% endif %}
+				{% endif %}
+				<hr>
 			</div>
 
+			<hr>
 			<!--visualizar-->
 			<a id="visualizar" href="/viewPublicacao/{{publicacao.id}}/">
 				<button type="button" class="btn btn-default">
@@ -196,6 +197,11 @@
 		</div>
 		<br>
 		{% endfor %}
+		{% else %}
+		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+		<h3>Seja bem-vindo ao Quarkdo, não há notificações no momento</h3>
+		</div>
+		{% endif %}
 
 	</div>
 

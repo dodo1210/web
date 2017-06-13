@@ -8,7 +8,7 @@ h4{
 }
 
 #img_perfil{
-	width: 100%;
+	width: 110%;
 }
 
 button{
@@ -35,7 +35,6 @@ button{
 
 #info div:hover{
 	background-color: #555;
-	box-shadow: 6px 6px 6px #333;
 	color: white;
 }
 
@@ -50,4 +49,8 @@ button{
 
 #show:hover{
 	color: green;
+}
+
+#seguir{
+	background:green;color:white;
 }

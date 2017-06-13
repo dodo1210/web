@@ -86,8 +86,8 @@
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<h3 class="text-capitalize">
 					{% if perfil.imagem_perfil %}
-					<img class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">
-					<br>
+						<img class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">
+						<br>
 					{% endif %}
 					<!--{ variavel com o nome do usuario }-->
 					{{user.username}}
@@ -124,6 +124,7 @@
 				<button style="background:#777;" class="btn"><strong>Criar grupos</strong></button>
 			</a>
 			
+			{% if grupos %}
 			{% for seu_grupo in grupos %}
 			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
@@ -131,16 +132,20 @@
 
 				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 					{% if seu_grupo %}
-					<a href="/grupo/{{seu_grupo.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{seu_grupo.imagem_logo.url}}"></a>
+						<a href="/grupo/{{seu_grupo.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{seu_grupo.imagem_logo.url}}">{{seu_grupo.titulo}}</a>
 					{% endif %}
-					<a href="/grupo/{{seu_grupo.id}}"><h3>{{seu_grupo.titulo}}</h3></a>
 				</div>
 				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-					<h3>{{seu_grupo.desc}}</h3>
+					<h5>Descrição: {{seu_grupo.desc}}</h5>
 				</div>
 				<br>
 			</div>
 			{% endfor %}
+			{% else %}
+				<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+					<h1>Nenhum grupo cadastrado</h1>
+				</div>
+			{% endif %}			
 		</div>
 		<br>
 
