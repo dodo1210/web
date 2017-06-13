@@ -182,8 +182,15 @@
 			<hr>
 			{% for comentario in coments %}
 			<div class="col-sm-11 col-md-12 col-xs-12 col-lg-12">
-				<div class="col-sm-11 col-md-11 col-xs-11 col-lg-11"></div><div class="col-sm-1 col-md-1 col-xs-1  col-lg-1 "><a href="/deletComentPost/{{comentario.id}}/">x</a></div>
-				<a href="/showPerfil/{{publicacao.user.id}}"><h3 class="text-capitalize">{{publicacao.user.username}}</h3></a>
+				<div class="col-sm-11 col-md-11 col-xs-11 col-lg-11"></div><div class="col-sm-1 col-md-1 col-xs-1  col-lg-1 ">
+				{% if comentario.user == perfil.user%}
+					<a href="/deletComentPost/{{comentario.id}}/">x</a></div>
+				{% else %}
+					{% if perfil.user == publicacao.user%}
+						<a href="/deletComentPost/{{comentario.id}}/">x</a></div>
+					{%endif%}
+				{% endif %}
+				<a href="/showPerfil/{{publicacao.user.id}}"><h3 class="text-capitalize">{{comentario.user.username}}</h3></a>
 				<small>{{publicacao.data}}</small><br>
 				{{comentario.coment}}
 				<hr>

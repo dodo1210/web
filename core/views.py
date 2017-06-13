@@ -866,4 +866,4 @@ def deletComentPost(request,id):
         publicate = Coment_Publicacao_Grupo_de_Estudo.objects.get(id=id)
         idt = str(publicate.publi.id)
         publicate.delete()
-        return HttpResponseRedirect('/pucacaogrupo/'+id+'/')
+        return HttpResponseRedirect('/pucacaogrupo/'+idt+'/')
