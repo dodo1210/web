@@ -131,10 +131,10 @@
 					<!--opções-->
 					<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
 						<select name="area">
-							{% for obt in obt %}
-					  			<option value="{{obt.id}}">{{obt.nome}}</option>
-					  		{% endfor %}
-						</select> 
+						{% for obj in obt_estudos %}
+							<option value="{{obj.id}}">{{obj.nome}}</option>
+						{% endfor %}
+					</select>  
 				  	</div>
 
 				  	<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
@@ -186,7 +186,6 @@
 							<a href=""><h3><small>{{forum.data}}</small></h3></a>
 						</div>
 					</div>
-					<hr>
 				</div>
 				<!--Mostra os forúns-->
 				{% if user.username == forum.user.username %}

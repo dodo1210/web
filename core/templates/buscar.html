@@ -96,7 +96,7 @@
 
 		<!--grupos usuario-->
 		{% if perfil.imagem_perfil %}
-		<a href="/seu_grupo/{{perfil.imagem_perfil}}">
+		<a href="/seu_grupo/">
 		{% endif %}
 			<br>
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
@@ -123,47 +123,41 @@
 			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
 				<h2>Você buscou por: {{buscar}}</h2>
-				<br>
-				<h2><a href="#usuarios">Existem {{tam_usuarios}} usuário(s) com o nome de : {{buscar}}</a></h2>
-				<h2><a href="#grupos">Existem {{tam_grupos}} grupo(s) com o nome de : {{buscar}}</a></h2>
-				<h2><a href="#foruns">Existem {{tam_foruns}} fórun(s) com o nome de : {{buscar}}</a></h2>
-				<h2><a href="#publicacoes">Existem {{tam_publicacoes}} publicação(s) com o nome de : {{buscar}}</a></h2>
-				<!--Mostra os usuarios-->
 				<hr>
 				<h4 id="usuarios">
-					<h1>Usuários</h1>
+					<h1>Usuários {{tam_usuarios}}</h1>
 	  				{% for user in usuarios %}
-		    		<a href="/showPerfil/{{user.id}}/">{{user.username}}</a><br>
+			    		<a href="/showPerfil/{{user.id}}/">{{user.username}}</a><br>
 		  			{% endfor %}
 		  		</h4>
 		  		
 		  		<br>
 		  		<hr>
 		  		<h4 id="grupos">
-					<h1>Grupos</h1>
+					<h1>Grupos {{tam_grupos}}</h1>
 	  				{% for grupo in grupos %}
-		    		<a href="/grupo/{{grupo.id}}">{{grupo.titulo}}</a><br>
+		    			<a href="/grupo/{{grupo.id}}">{{grupo.titulo}}</a><br>
 		  			{% endfor %}
 		  		</h4>
 
 		  		<br>
 		  		<hr>
 		  		<h4 id="foruns">
-					<h1>Fóruns</h1>
+					<h1>Fóruns {{tam_foruns}}</h1>
 	  				{% for forum in foruns %}
-		    		<a href="/pergunta_forum/{{forum.id}}">{{forum.texto}}</a><br>
+		    			<a href="/pergunta_forum/{{forum.id}}">{{forum.texto}}</a><br>
 		  			{% endfor %}
 		  		</h4>
 
 		  		<br>
 		  		<hr>
 		  		<h4 id="publicacoes">
-					<h1>Publicações</h1>
+					<h1>Publicações {{tam_publicacoes}}</h1>
 	  				{% for publicacao in publicacaos %}
-		    		<a href="/viewPublicacao/{{publicacao.id}}">{{publicacao.titulo}}</a><br>
+		    			<a href="/viewPublicacao/{{publicacao.id}}">{{publicacao.titulo}}</a><br>
 		  			{% endfor %}
 		  		</h4>
-				
+				<br>
 			</div>
 
 		</div>

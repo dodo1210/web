@@ -180,19 +180,35 @@
 			</div>
 
 			<hr>
-			{% for comentario in coments %}
-			<div class="col-sm-11 col-md-12 col-xs-12 col-lg-12">
-				<div class="col-sm-11 col-md-11 col-xs-11 col-lg-11"></div><div class="col-sm-1 col-md-1 col-xs-1  col-lg-1 ">
-				{% if comentario.user == perfil.user%}
-					<a href="/deletComentPost/{{comentario.id}}/">x</a></div>
-				{% else %}
-					{% if perfil.user == publicacao.user%}
-						<a href="/deletComentPost/{{comentario.id}}/">x</a></div>
-					{%endif%}
-				{% endif %}
-				<a href="/showPerfil/{{publicacao.user.id}}"><h3 class="text-capitalize">{{comentario.user.username}}</h3></a>
-				<small>{{publicacao.data}}</small><br>
+			{% for comentario in comentarios %}
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				{% if comentario.perfil.imagem_perfil %}
+					<a href="/showPerfil/{{comentario.user.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{comentario.perfil.imagem_perfil.url}}">{{comentario.user.username}}</a>
+				{% endif %}<br>
+				<h6><small>{{comentario.data}}</small><br></h6>
 				{{comentario.coment}}
+				<hr>
+			</div>
+			{% endfor %}
+			{% for comentario in coments %}
+
+			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+
+
+				<div class="col-sm-11 col-md-11 col-xs-11 col-lg-11">
+				{% if comentario.perfil.imagem_perfil %}
+					<a href="/showPerfil/{{comentario.user.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{comentario.perfil.imagem_perfil.url}}">{{comentario.user.username}}</a>
+					{% endif %}<br>
+					<h6><small>{{comentario.data}}</small><br></h6>
+					{{comentario.coment}}
+					<hr>
+				</div>
+
+				<div class="col-sm-1 col-md-1 col-xs-1  col-lg-1 ">
+				{% if comentario.user == perfil.user%}
+					<a href="/deletComentPost/{{comentario.id}}/">x</a>
+				{% endif %}
+				</div>
 				<hr>
 			</div>
 			{% endfor %}

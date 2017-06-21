@@ -7,8 +7,12 @@
 	background: black;
 }
 
-#menu a img:hover{
-	background: #888;
+menu div{
+	margin-top: 10%;
+}
+
+#menu a img{
+	margin-top: 5%;
 }
 
 #logo{
@@ -17,6 +21,10 @@
 
 input{
 	width: 100%;
+}
+
+.usu{
+	width: 30%;
 }
 
 #info div{
@@ -31,7 +39,6 @@ input{
 button{
 	background-color: #ccc;
 }
-
 
 #publicacoes{
 	margin-top: 10%;
@@ -64,9 +71,14 @@ button{
 	background-color: #ccc;
 }
 
+#usu_timeline{
+	width: 10%;
+	float: left;
+}
 
 #post{
-	width: 100%;
+	width: 90%;
+	border-radius: 3%;
 	text-align: center;
 }
 

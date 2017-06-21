@@ -94,12 +94,12 @@
 		<br>
 		
 		{% if user not in list_user%}<!--grupos usuario-->
-		<a href="/participaGrupo/{{grupo.id}}/">
-			<br>
-			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<h4><strong><span class="glyphicon glyphicon-plus"></span> PARTICIPAR</strong></h4>
-			</div>
-		</a>
+			<a href="/participaGrupo/{{grupo.id}}/">
+				<br>
+				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+					<h4><strong><span class="glyphicon glyphicon-plus"></span> PARTICIPAR</strong></h4>
+				</div>
+			</a>
 		{%else%}
 			{% if user != grupo.user_adm.user%}
 				<a href="/sair/{{grupo.id}}">
@@ -197,10 +197,25 @@
 
 			<!--publicação-->
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				{{publicacao.texto}}<hr>
-				{% if publicacao.anexo %}
-					<img src="{{publicacao.anexo.url}}">
-				{% endif %}
+				{% for anexo in anexo %}
+					{% if anexo in publicacao.anexo.url %}
+						{% for tipo in tipo %}
+
+							{% if tipo in anexo %}
+								{% if tipo == "png" or tipo == "jpg" or tipo == "gif" %}
+									<img src="{{publicacao.anexo.url}}">
+								{% endif %}
+
+								{% if tipo == "docx" or tipo == "doc" or tipo == "pdf" or  tipo == "pdf" or tipo == "sh" or tipo == "java" or tipo == "c" or tipo == "py" or tipo == "pptx" or tipo == "txt" %}
+									<a href="{{publicacao.anexo.url}}"><span class="glyphicon glyphicon-download-alt">{{anexo}}</a> </span>
+								{% endif %}
+								{{"<!--"}}
+							{% endif %}
+
+						{% endfor %}
+						{"-->
+					{% endif %}
+				{% endfor %}
 				<hr>
 			</div>
 

@@ -131,16 +131,13 @@
 					<!--opções-->
 					<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
 						<select name="area">
-							<option value="8">Administração</option>
-						  	<option value="10">Biologia</option>
-						  	<option value="4">Enfermagem</option>
-						  	<option value="7">História</option>
-						  	<option value="1">Matemática</option>
-						  	<option value="5">Medicina</option>
-						  	<option value="6">Nutrição</option>
-						  	<option value="9">Pedagogia</option>
-						  	<option value="2">SI</option>
-						</select> 
+							{% for selecionada in selecionada %}
+								<option value="{{obj.id}}"><b>{{selecionada}}</b></option>
+							{% endfor %}
+							{% for obj in obt_estudos %}
+								<option value="{{obj.id}}">{{obj.nome}}</option>
+							{% endfor %}
+						</select>  
 				  	</div>
 
 				  	<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
@@ -186,14 +183,6 @@
 			</div>
 		</a>
 	</div>
-
-		<!--fóruns usuario-->
-		<a href="">
-			<br>
-			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<h4><strong>Seminário de introdução ao curso</strong></h4>
-			</div>
-		</a>
 	</div>
 
 	<!--vazio-->

@@ -90,6 +90,11 @@
 					<h2 class="text-capitalize">{{user.username}}</h2>
 				</div>
 
+				<div class="col-sm-7 col-md-7 col-xs-12 col-lg-7">
+					<h3>BIO</h3>
+					<a href=""><h3>{{perfil.bio}}</h3></a>
+				</div>
+
 			</div>
 
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
@@ -101,17 +106,7 @@
 						<button class="btn btn-default"><strong>Editar detalhes<br>de perfil</strong></button>
 					</a>
 				</div>
-
-				<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
-					<h3>Seguindo</h3>
-					<a href="/seguindo/"><h3>{{seguindo}}</h3></a>
-				</div>
-
-				<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
-					<h3>Seguidores</h3>
-					<a href="/seguidores/"><h3>{{seguidores}}</h3></a>
-				</div>
-
+				
 				<!--Vazio-->
 				<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 				
@@ -164,37 +159,64 @@
 	<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
 
 		<!--linha do tempo-->
+		{% if publicacao  %}
 		{% for publicacao in publicacao %}
 		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 			<!--date nome-->
 			<br>
 			<div class="col-sm-11 col-md-11 col-xs-12 col-lg-11">
-				<a style="color: black;" href="/exibirPerfil/"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
-				<a id="show" style="color: black;" href="/exibirPerfil/"><h3 class="text-capitalize">{{publicacao.user.username}}</h3></a>
-				<br>
-				<small>{{publicacao.data}}</small>
-				<h1> {{publicacao.titulo}}</h1>
+				{% for perfil in perfis %}
+					{% if perfil.user.username == publicacao.user.username %}
+						{% if perfil.imagem_perfil %}
+							<a href="/showPerfil/{{publicacao.user.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">{{perfil.user.username}}</a>
+						{% endif %}
+						<h6><small>{{publicacao.data}}</small></h6>
+					{{break}}
+					{% endif %}
+				{% endfor %}
+				
+				<h1>Título: {{publicacao.titulo}} </h1>
+
 			</div>
+
 			<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
 				<br>
 				<div class="dropdown">
-					<span class="caret"></span>
-					</button>
+					<button class="btn glyphicon" type="button" data-toggle="dropdown"><span class="caret"></span></button>
 			  		<ul class="dropdown-menu">
 				    	<li><a href="../editarPublicacoes/{{publicacao.id}}">Editar publicacao</a></li>
 					    <li><a href="../excluirPublicacoes/{{publicacao.id}}">Excluir publicação</a></li>
-				  	</ul>
+				  	</ul></button>
 				</div>
 			</div>
 
 			<!--publicação-->
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				{{publicacao.texto}}<br>
-					{% if publicacao.anexo %}
-					<img src="{{publicacao.anexo.url}}">
+				{{publicacao.texto}}<hr>
+				{% for anexo in anexo %}
+					{% if anexo in publicacao.anexo.url %}
+						{% for tipo in tipo %}
+
+							{% if tipo in anexo %}
+								{% if tipo == "png" or tipo == "jpg" or tipo == "gif" %}
+									<img src="{{publicacao.anexo.url}}">
+								{% endif %}
+
+								{% if tipo == "docx" or tipo == "doc" or tipo == "pdf" or  tipo == "pdf" or tipo == "sh" or tipo == "java" or tipo == "c" or tipo == "py" or tipo == "pptx" or tipo == "txt" %}
+									<a href="{{publicacao.anexo.url}}"><span class="glyphicon glyphicon-download-alt">{{anexo}}</a> </span>
+								{% endif %}
+								{{"<!--"}}
+							{% endif %}
+
+						{% endfor %}
+						{"-->
 					{% endif %}
+				{% endfor %}
+				
+				<hr>
 			</div>
 
+			<hr>
 			<!--visualizar-->
 			<a id="visualizar" href="/viewPublicacao/{{publicacao.id}}/">
 				<button type="button" class="btn btn-default">
@@ -205,6 +227,11 @@
 		</div>
 		<br>
 		{% endfor %}
+		{% else %}
+		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+		<h3>Este é seu perfil, não há publicações suas no momento para publicar, basta ir na página principal e preencher o formulário</h3>
+		</div>
+		{% endif %}
 
 	</div>
 

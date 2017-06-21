@@ -34,9 +34,9 @@
 	    		<div class="col-sm-10">
 	      			<input name="busca" type="text" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
 	    		</div>
-	    		<button>
+	    		<button class="btn">
 	      			<div>
-	      				<span class="glyphicon glyphicon-search btn"></span>
+	      				<span class="glyphicon glyphicon-search"></span>
       			 	</div>
 	      		</button>
 	  		</div>
@@ -165,24 +165,40 @@
 				{% for perfil in perfis %}
 					{% if perfil.user.username == publicacao.user.username %}
 						{% if perfil.imagem_perfil %}
-							<a href="/showPerfil/{{publicacao.user.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">{{perfil.user.username}}</a>
+							<a href="/showPerfil/{{perfil.user.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">{{perfil.user.username}}</a>
 						{% endif %}
 						<h6><small>{{publicacao.data}}</small></h6>
 					{{break}}
 					{% endif %}
 				{% endfor %}
 				
-				<h1>Título: {{publicacao.titulo}} </h1>
+				<h1>{{publicacao.titulo}} </h1>
 
 			</div>
 
 			<!--publicação-->
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				{{publicacao.texto}}<hr>
-				{% if publicacao.anexo %}
-					<h1>{{publicacao.anexo.url}}</h1>
-					<img src="{{publicacao.anexo.url}}">
-				{% endif %}
+				{% for anexo in anexo %}
+					{% if anexo in publicacao.anexo.url %}
+						{% for tipo in tipo %}
+
+							{% if tipo in anexo %}
+								{% if tipo == "png" or tipo == "jpg" or tipo == "gif" %}
+									<img src="{{publicacao.anexo.url}}">
+								{% endif %}
+
+								{% if tipo == "docx" or tipo == "doc" or tipo == "pdf" or tipo == "sh" or tipo == "java" or tipo == "c" or tipo == "py" or tipo == "pptx" or tipo == "txt" %}
+									<a href="{{publicacao.anexo.url}}"><span class="glyphicon glyphicon-download-alt">{{anexo}}</a> </span>
+								{% endif %}
+								{{"<!--"}}
+							{% endif %}
+
+						{% endfor %}
+					{% endif %}
+				{% endfor %}
+				<!--{"-->
+				
 				<hr>
 			</div>
 

@@ -122,34 +122,34 @@
 		
 			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 				<form method = "post" enctype="multipart/form-data">
-				{% csrf_token %}
-				<br>
-				
-				<div class="form-group">
-					<textarea name="bio" placeholder="Biografia" class="form-control" rows="5" id="comment">{{perfil.bio}}</textarea>
-				</div>
-
-				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
-					{{form.imagem_perfil}}
-				</div>
-
-				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+					{% csrf_token %}
+					<br>
 					
-				</div>
-				
-				<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
-			  	</div>
+					<div class="form-group">
+						<textarea name="bio" placeholder="Biografia" class="form-control" rows="5" id="comment">{{perfil.bio}}</textarea>
+					</div>
 
-			  	<!--botão-->
-			  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
-			  		<button class="btn"><strong>EDITAR</strong></button>
-				</div>
+					<div class="col-sm-5 col-md-5 col-xs-12 col-lg-5">
+						{{form.imagem_perfil}}
+					</div>
 
-				<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
-			  	</div>
+					<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+						
+					</div>
+					
+					<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+				  	</div>
 
-				<br>
-			</form>
+				  	<!--botão-->
+				  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
+				  		<button class="btn"><strong>EDITAR</strong></button>
+					</div>
+
+					<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+				  	</div>
+
+					<br>
+				</form>
 				<br>
 			</div>
 

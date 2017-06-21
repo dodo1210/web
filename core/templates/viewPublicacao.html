@@ -138,13 +138,13 @@
 				
 				{{publicacao.texto}}<br>
 				
-								<hr>
+				<hr>
 				{% if anexo == "fdp" or anexo == "xcod" or anexo == "cod" or anexo == "xtpp" or anexo == "c" or anexo == "yp" or anexo == "avaj" or anexo == "lmth" or anexo == "hs" or anexo == "txt" or anexo == "piz" or anexo == "rar" %} 
 					<a href="{{publicacao.anexo.url}}"><span class="glyphicon glyphicon-download-alt">{{nome_anexo}}</a> </span>
 				{% endif %}
 
 				{% if anexo == "gnp" or anexo == "gpj" or anexo == "fig" %}
-					<img src="{{publicacao.anexo.url}}"></iframe>
+					<img src="{{publicacao.anexo.url}}">
 				{% endif %}
 
 				<br>
@@ -170,8 +170,11 @@
 						  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 						  		<button class="btn" type="submit"><strong>Comentar</strong></button>
 							</div>
+							<hr>
 						</div>
+						<hr>
 					</div>
+					<hr>
 				</div>
 
 			</form>
@@ -183,8 +186,10 @@
 			<hr>
 			{% for comentario in comentarios %}
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<a href="/showPerfil/{{publicacao.user.id}}"><h3 class="text-capitalize">{{publicacao.user.username}}</h3></a>
-				<small>{{publicacao.data}}</small><br>
+				{% if comentario.perfil.imagem_perfil %}
+					<a href="/showPerfil/{{comentario.user.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{comentario.perfil.imagem_perfil.url}}">{{comentario.user.username}}</a>
+				{% endif %}<br>
+				<h6><small>{{comentario.data}}</small><br></h6>
 				{{comentario.coment}}
 				<hr>
 			</div>
