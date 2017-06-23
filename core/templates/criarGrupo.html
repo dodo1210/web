@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-	<title>Quarkdo - Home</title>
+	<title>Quarkdo</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
@@ -16,7 +16,7 @@
 	</div>
 	<!--logo-->
 	<div id="menu" class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
-		<a href="">
+		<a href="/home/">
 			<img id="logo" class="img-responsive" src="{% static 'img/logo_menor.png' %}">
 		</a>
 	</div>	
@@ -29,14 +29,14 @@
 	<!--buscar-->
 	<div id="buscar" class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
 		<br>
-		<form action="/buscar/" class="form-horizont">
-	  		<div>
+		<form action="/buscar/"  class="form-horizont">
+	  		<div class="form-group">
 	    		<div class="col-sm-10">
 	      			<input name="busca" type="text" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
 	    		</div>
 	    		<button class="btn">
 	      			<div>
-	      				<span class="glyphicon glyphicon-search"></span>
+	      				<span class="glyphicon glyphicon-search" ></span>
       			 	</div>
 	      		</button>
 	  		</div>
@@ -58,19 +58,16 @@
 		    	<li><a href="/edit_user/">Editar perfil</a></li>
 			    <li><a href="/logout/">Sair</a></li>
 		  	</ul>
-		  	<br>
-		  	<br>
-		</div> 
+		</div>
 	</div>
 
 	<!--vazio-->
 	<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
 
 	</div>
-	<br>
-	<br>
 
 </div>
+
 
 <!--corpo-->
 <div id="corpo" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
@@ -132,12 +129,13 @@
 					<textarea name="desc" placeholder="Publique algo que deseje" class="form-control" rows="5" id="comment"></textarea>
 				</div>
 
-				<div class="col-sm-5 col-md-5 col-xs-12 col-lg-5">
+				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+					<h4>Imagem de grupo:</h4>
 					<input type="file" name="imagem_logo" value="rdf">
 				</div>
 				
 				<!--opções-->
-				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+				<div class="col-sm-9 col-md-9 col-xs-12 col-lg-9">
 					<select name="area">
 					  	{% for obt in obt %}
 					  	<option value="{{obt.id}}">{{obt.nome}}</option>

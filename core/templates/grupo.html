@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-	<title>Django</title>
+	<title>Quarkdo</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
@@ -33,7 +33,7 @@
 		<form class="form-horizont">
 	  		<div class="form-group">
 	    		<div class="col-sm-10">
-	      			<input type="email" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
+	      			<input type="text" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
 	    		</div>
 	    		<button class="btn">
 	      			<div>
@@ -114,13 +114,13 @@
 			<a href="/deletar/{{grupo.id}}/">
 				<br>
 				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-					<h4><strong><span class="glyphicon glyphicon-fire"></span> Deletar </strong></h4>
+					<h4><strong><span class="glyphicon glyphicon-remove"></span> Deletar </strong></h4>
 				</div>
 			</a>
 			<a href="/editar/{{grupo.id}}/">
 				<br>
 				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-					<h4><strong><span class="glyphicon glyphicon-fire"></span> Editar </strong></h4>
+					<h4><strong><span class="glyphicon glyphicon-pencil"></span> Editar </strong></h4>
 				</div>
 			</a>
 		{% endif %}
@@ -144,12 +144,12 @@
 						<textarea name="texto" placeholder="Publique algo que deseje" class="form-control" rows="5" id="comment"></textarea>
 					</div>
 
-					<div class="col-sm-5 col-md-5 col-xs-12 col-lg-5">
+					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 						<input type="file" name="anexo" value="rdf">
 					</div>
 					
 					<!--opções-->
-					<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+					<div class="col-sm-9 col-md-9 col-xs-12 col-lg-9">
 						<select name="area">
 							{% for obj in obt_estudos %}
 								<option value="{{obj.id}}">{{obj.nome}}</option>
@@ -179,24 +179,30 @@
 		{% for publicacao in post %}
 		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 			<!--date nome-->
-			<br>
-			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				{% for perfil in perfis %}
-					{% if perfil.user.username == publicacao.user.username %}
-						{% if perfil.imagem_perfil %}
-							<a href="/showPerfil/{{publicacao.user.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">{{perfil.user.username}}</a>
-						{% endif %}
-						<h6><small>{{publicacao.data}}</small></h6>
-					{{break}}
-					{% endif %}
-				{% endfor %}
-				
-				<h1>Título: {{publicacao.titulo}} </h1>
-
+			<div class="col-sm-11 col-md-11 col-xs-11 col-lg-11">
+				<br>
+				{% if publicacao.perfil.imagem_perfil %}
+					<a href="/showPerfil/{{publicacao.user.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{publicacao.perfil.imagem_perfil.url}}">{{publicacao.perfil.user.username}}</a>
+					
+				{% endif %}
+				<h6><small>{{publicacao.data}}</small></h6>
+				<h1>{{publicacao.titulo}} </h1>
+				<hr>
 			</div>
-
+			<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
+				<br>
+				<div class="dropdown">
+					<button class="btn glyphicon" type="button" data-toggle="dropdown"><span class="caret"></span></button>
+			  		<ul class="dropdown-menu">
+				    	<li><a href="/editPublicGrupo/{{publicacao.id}}">Editar publicacao</a></li>
+					    <li><a href="/deletPublicGrupo/{{publicacao.id}}">Excluir publicação</a></li>
+				  	</ul></button>
+				</div>
+			</div>
 			<!--publicação-->
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				{{publicacao.texto}}
+				<hr>
 				{% for anexo in anexo %}
 					{% if anexo in publicacao.anexo.url %}
 						{% for tipo in tipo %}
@@ -213,7 +219,7 @@
 							{% endif %}
 
 						{% endfor %}
-						{"-->
+						<!--{"-->
 					{% endif %}
 				{% endfor %}
 				<hr>
@@ -226,13 +232,17 @@
 					<h4><span style="float: left;" class=" glyphicon glyphicon-eye-open"></span> VISUALIZAR</h4>
 				</button>
 			</a>
-
+			<br>
 		</div>
+		<br>
 		<br>
 		{% endfor %}
 		{% else %}
 		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-		<h3>Seja bem-vindo ao grupo {{grupo.titulo}}, não há notificações no momento</h3>
+			<BR>
+			<a href=""><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+			<a style="color:black;" href=""><h3>QUARKDO</h3></a>
+			<h3>Seja bem-vindo ao grupo {{grupo.titulo}}, não há notificações no momento</h3>
 		</div>
 		{% endif %}
 		<br>

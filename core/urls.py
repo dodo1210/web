@@ -35,7 +35,9 @@ urlpatterns = [
     url(r'^deletar/(?P<id>\d+)/$', views.excluirGrupo, name='excluirGrupo'),
     url(r'^editar/(?P<id>\d+)/$', views.editarGrupo, name='editarGrupo'),
     url(r'^deletComentPost/(?P<id>\d+)/$', views.deletComentPost, name='deletComentPost'),
-
+    url(r'^deletPublicGrupo/(?P<id>\d+)/$', views.deletPublicGrupo, name='deletPublicGrupo'),
+    url(r'^editPublicGrupo/(?P<id>\d+)/$', views.editPublicGrupo, name='editPublicGrupo'),
+    
     #forum e busca
     url(r'^forum/$', views.forum, name='forum'),
     url(r'^buscar/$', views.buscar, name='buscar'),
@@ -46,6 +48,7 @@ urlpatterns = [
     url(r'^editarPublicacoes/(?P<publicacao_id>\d+)/$', views.editPublicacoes, name='editarPublicacoes'),
     url(r'^excluirPublicacoes/(?P<publicacao_id>\d+)/$', views.removePublicacoes, name='excluir'),
     url(r'^viewPublicacao/(?P<publicacao_id>\d+)/$', views.viewPublicacao, name='viewPublicacao'),
+    url(r'^deletComent/(?P<publicacao_id>\d+)/$', views.deletComent, name='deletComent'),
 
     #seguirdores 
     url(r'^seguir/(?P<id>\d+)/$', views.seguir, name='seguir'),

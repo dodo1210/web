@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-	<title>Quarkdo - Home</title>
+	<title>Quarkdo</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
@@ -127,12 +127,12 @@
 					<textarea name="texto" placeholder="Publique algo que deseje" class="form-control" rows="5" id="comment"></textarea>
 				</div>
 
-				<div class="col-sm-5 col-md-5 col-xs-12 col-lg-5">
+				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 					<input type="file" name="anexo" value="rdf">
 				</div>
-				
+				<br>
 				<!--opções-->
-				<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
+				<div class="col-sm-9 col-md-9 col-xs-12 col-lg-9">
 					<select name="area">
 						{% for obj in obt_estudos %}
 							<option value="{{obj.id}}">{{obj.nome}}</option>
@@ -189,7 +189,7 @@
 								{% endif %}
 
 								{% if tipo == "docx" or tipo == "doc" or tipo == "pdf" or tipo == "sh" or tipo == "java" or tipo == "c" or tipo == "py" or tipo == "pptx" or tipo == "txt" %}
-									<a href="{{publicacao.anexo.url}}"><span class="glyphicon glyphicon-download-alt">{{anexo}}</a> </span>
+									<a style="color:black;" href="{{publicacao.anexo.url}}"><span class="glyphicon glyphicon-download-alt">{{anexo}}</a> </span>
 								{% endif %}
 								{{"<!--"}}
 							{% endif %}
@@ -215,7 +215,10 @@
 		{% endfor %}
 		{% else %}
 		<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-		<h3>Seja bem-vindo ao Quarkdo, não há notificações no momento</h3>
+			<BR>
+			<a href=""><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+			<a style="color:black;" href=""><h3>QUARKDO</h3></a>
+			<h3>Seja bem-vindo ao Quarkdo, não há notificações no momento</h3>
 		</div>
 		{% endif %}
 

@@ -52,7 +52,11 @@ def loggedin(request):#aqui renderisa a tela com as reques de users(vai ser melh
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
-        return HttpResponseRedirect('/home/')
+        perfil = Perfil.objects.filter(user=request.user)
+        if perfil:
+            return HttpResponseRedirect('/home/')
+        else:
+            return HttpResponseRedirect('/cadperfil/')  
        # user = request.user
        # perfil1 = Perfil.objects.filter(user=user)
        # if perfil1:
@@ -145,7 +149,7 @@ def editarcadPerfil(request):
                 #por o save nesse local do codigo
                 perfil.save()
                 return HttpResponseRedirect('/perfil/')
-        return render(request,'Cad_Perfil.html',{'form':form,'perfil':perfil1[0]})
+        return render(request,'Cad_Perfil.html',{'form':form,'perfil':Perfil.objects.get(user = request.user)})
 
 def obt_Estudo(request):
     bus = request.POST.get('busca')
@@ -323,6 +327,7 @@ def showSinglePublicateGrupo(request,id):
                 comentario.publi = publicate
                 comentario.grupo = grupo
                 comentario.save()
+                return HttpResponseRedirect('/pucacaogrupo/'+id+'/')
     coment = Coment_Publicacao_Grupo_de_Estudos.objects.filter(publi=publicate).order_by('-pk')
     form =  FormComent_Publicacao_Grupo_de_Estudo()
 
@@ -349,7 +354,6 @@ def showSinglePublicateGrupo(request,id):
             'publicacao': publicate,
             'form' : form,
             'coments' :coment,
-            'grupo' : Grupos.objects.get(id = id),
             'perfis' : Perfil.objects.filter(user = request.user),
             'perfil' : Perfil.objects.get(user = request.user),
             'anexo' : tipo,
@@ -427,8 +431,8 @@ def home(request):
         list_foll.append(simple[0])
 
     for s in list_foll:
-    	for p in Publicacaos.objects.filter(user = s.user).order_by('-pk'):
-    		publicacoes.append(p)
+        for p in Publicacaos.objects.filter(user = s.user).order_by('-pk'):
+            publicacoes.append(p)
 
     context = {
         'user' : user,
@@ -488,6 +492,7 @@ def viewPublicacao(request,publicacao_id):
         'form' : form,
         'publicacao' : publi,
         'comentarios' : comentarios,
+        'coments' : comentarios,
         'anexo' : tipo,
         'nome_anexo' : nome,
         'perfis' : Perfils.objects.all(),
@@ -498,6 +503,14 @@ def viewPublicacao(request,publicacao_id):
         if form.is_valid():
             comentario = form.save(commit=False)
             comentario.user = request.user
+            perfil1 = Perfil.objects.filter(user=request.user)
+            if perfil1:
+                perfil = perfil1[0]
+            else:
+                perfil = Perfil()
+                perfil.user = request.user
+                perfil.save()
+            comentario.perfil = perfil
             comentario.publi_id = publicacao_id
             comentario.save()
             return HttpResponseRedirect('/viewPublicacao/'+publicacao_id)
@@ -537,8 +550,16 @@ def forum(request):
     if request.method == 'POST':
         if form.is_valid():
             forum = form.save(commit=False)
+            perfil1 = Perfil.objects.filter(user=request.user)
+            if perfil1:
+                perfil = perfil1[0]
+            else:
+                perfil = Perfil()
+                perfil.user = request.user
+                perfil.save()
             forum.user = request.user
             area = get_object_or_404(Obt_Estudo,id=request.POST.get('area',''))
+            forum.perfil = perfil
             forum.save()
             forum.area.add(area)
             return HttpResponseRedirect('/forum/')
@@ -566,14 +587,17 @@ def editForum(request,forum_id):
     form = Forum_Duvida(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
+            print("cfgvhbj")
             forum = form.save(commit=False)
             forum.id = forum_id
             forum.user = request.user
             forum.texto = request.POST.get('texto')
+            print(request.POST.get('texto'))
             area = get_object_or_404(Obt_Estudo,id=request.POST.get('area',''))
             forum.save()
+            forum.area.clear()
             forum.area.add(area)
-            return HttpResponseRedirect('/forum/')
+            return HttpResponseRedirect('/editForum/'+forum_id)
     return render(request,'editForum.html',context)
 
 def pergunta_forum(request,forum_id):
@@ -581,8 +605,10 @@ def pergunta_forum(request,forum_id):
 
     forum = Forum_duvidas.objects.get(id=forum_id)
     teste = Resp_Forum_Duvidas.objects.filter(forum=forum)
+    per = Forum_duvidas.objects.get(id=forum_id)
     context = {
         'user' : request.user,
+        'perfil' : Perfil.objects.get(user = request.user),
         'forum':Forum_duvidas.objects.get(id=forum_id),
         'usuario_publicou' : forum.user.username,
         'respostas' : Resp_Forum_Duvidas.objects.filter(forum = forum).order_by('-pk')
@@ -592,6 +618,15 @@ def pergunta_forum(request,forum_id):
     if request.method == 'POST':
         if form.is_valid():
             resp_forum = form.save(commit=False)
+            perfil1 = Perfil.objects.filter(user=request.user)
+            if perfil1:
+                perfil = perfil1[0]
+            else:
+                perfil = Perfil()
+                perfil.user = request.user
+                perfil.save()
+            resp_forum.user = request.user
+            resp_forum.perfil = perfil
             resp_forum.user = request.user
             resp_forum.forum = forum
             resp_forum.save()
@@ -622,16 +657,15 @@ def buscar(request):
     #retira a aspa simples
     for i in range(len(buscar)-1):
         busca=busca+buscar[i]
-    print(busca+"k")
 
     usuarios = []
     grupos = []
     foruns = []
     publicacoes =[]
 
-    for usu in User.objects.all():
-        if busca in usu.username:
-            usuarios.append(usu)
+    for perfil in Perfil.objects.all():
+        if busca in perfil.user.username:
+            usuarios.append(perfil)
 
     for grupo in Grupos.objects.all():
         if busca in grupo.titulo:
@@ -646,9 +680,39 @@ def buscar(request):
             print(publicacao.titulo)
             publicacoes.append(publicacao)
 
-    for publicacao in Publicacao_Grupo_de_Estudos.objects.all():
-        if busca in publicacao.titulo:
-            publicacoes.append(publicacao)
+    pub = []
+
+    for p in publicacoes:
+        pub.append(p.anexo.url[::-1])
+
+    anexo = []
+    i=0
+    
+    for t in pub:
+        ti = ""
+        anexo.append(t)
+        for ts in pub[i]:
+            if ts == '/':
+                break
+            ti = ti+ts
+        anexo[i] = ti[::-1]
+        i = i+1
+
+    for p in publicacoes:
+        pub.append(p.anexo.url[::-1])
+
+    tipo = []
+    i=0
+    for t in pub:
+        ti = ""
+        tipo.append(t)
+        for ts in pub[i]:
+            if ts == '.':
+                break
+            ti = ti+ts
+        tipo[i] = ti[::-1]
+        print (tipo[i])
+        i = i+1
 
     context = {
         'user' : request.user,
@@ -664,8 +728,12 @@ def buscar(request):
         'tam_foruns' : len(foruns),
         'tam_publicacoes' : len(publicacoes),
         
+        'tipo' : tipo,
+        'anexo' : anexo,
+
         'buscar' : busca
     }
+
     return render(request,'buscar.html',context)
 
 def editar_usuario(request):
@@ -690,7 +758,7 @@ def editar_usuario(request):
             user.last_name = request.POST.get('last_name')
             user.email = request.POST.get('email')
             user.save()
-            return render(request,'editar_usuario.html')
+            return HttpResponseRedirect('/exibirPerfil/')
     return render(request,'editar_usuario.html',context)
 
 def exibirPerfil(request):
@@ -774,8 +842,10 @@ def exibirPerfil(request):
 def showPerfil(request,perfil_id):
     bus = request.POST.get('busca')
 
+    
+    perfil = Perfil.objects.filter(user=request.user)
     usuario = User.objects.get(id=perfil_id);
-    perfil = Perfil.objects.filter(user=usuario)
+    
     user = request.user
     all_friends = []
     amisades = Seguidor.objects.filter(user=user)
@@ -789,12 +859,50 @@ def showPerfil(request,perfil_id):
         perfil1.user = usuario
         perfil1.save()
     bus = request.POST.get('busca')
+
+    publicacao = Publicacaos.objects.all().order_by('-pk')
+    pub = []
+
+    for p in publicacao:
+        pub.append(p.anexo.url[::-1])
+
+    anexo = []
+    i=0
+    
+    for t in pub:
+        ti = ""
+        anexo.append(t)
+        for ts in pub[i]:
+            if ts == '/':
+                break
+            ti = ti+ts
+        anexo[i] = ti[::-1]
+        i = i+1
+
+    for p in publicacao:
+        pub.append(p.anexo.url[::-1])
+
+    tipo = []
+    i=0
+    for t in pub:
+        ti = ""
+        tipo.append(t)
+        for ts in pub[i]:
+            if ts == '.':
+                break
+            ti = ti+ts
+        tipo[i] = ti[::-1]
+        i = i+1
+
+    usu = User.objects.get(id = perfil_id)
     context = {
         'user' : user,
         'usuario' : usuario,
         'publicacoes' : Publicacaos.objects.filter(user=usuario).order_by('-pk'),
-        'perfil': perfil1,
-        'all_friends' : all_friends
+        'perfil': Perfil.objects.get(user = usu),
+        'all_friends' : all_friends,
+        'tipo' : tipo,
+        'anexo' : anexo,
     }
     return render(request,'showPerfil.html',context)
 
@@ -855,7 +963,7 @@ def editPublicacoes(request,publicacao_id):
         'user' : request.user,
         'form' : form,
         'publicacao' : Publicacaos.objects.get(id=publicacao_id),
-        'perfil' : Perfils.objects.get(id=request.user.id),
+        'perfil' : Perfil.objects.get(user=request.user),
         'selecionada' : a,
         'obt_estudos' : Obt_Estudo.objects.all(),
     }
@@ -871,16 +979,18 @@ def editPublicacoes(request,publicacao_id):
         publicacaos.texto = request.POST.get('texto')
         area = get_object_or_404(Obt_Estudo,id=request.POST.get('area',''))
         publicacaos.save()
+        publicacaos.area.clear()
         publicacaos.area.add(area)
         return HttpResponseRedirect('/exibirPerfil/')
     return render(request,'editPublicacoes.html',context)
 
 def removePublicacoes(request,publicacao_id):
-
-    form = Publicacao(request.POST, request.FILES)
+    
     bus = request.POST.get('busca')
+    form = Publicacao(request.POST, request.FILES)
     context = {
         'user' : request.user,
+        'perfil' : Perfil.objects.get(user = request.user),
     }
 
     if request.method == 'POST':
@@ -890,6 +1000,7 @@ def removePublicacoes(request,publicacao_id):
 
     
 def participatedGrupo(request,id):
+    bus = request.POST.get('busca')
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
@@ -900,14 +1011,15 @@ def participatedGrupo(request,id):
 
 
 def sairGrupo(request,id):
+    bus = request.POST.get('busca')
+
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
-    	bus = request.POST.get('busca')
-    	user = request.user
-    	grupo = Grupo_de_Estudo.objects.get(id=id)
-    	grupo.participantes.remove(user)
-    	return HttpResponseRedirect('/grupo/'+id+'/')
+        user = request.user
+        grupo = Grupo_de_Estudo.objects.get(id=id)
+        grupo.participantes.remove(user)
+        return HttpResponseRedirect('/grupo/'+id+'/')
 
 
 def seguindo(request):
@@ -943,6 +1055,7 @@ def seguindo(request):
         return render(request,'seguindo.html',context)
 
 def seguidores(request):
+    bus = request.POST.get('busca')
     if not request.user.is_authenticated():
         return render(request, 'index.html')
     else:
@@ -1041,7 +1154,8 @@ def editarGrupo(request,id):
         context = {
             'obt' : Obt_Estudo.objects.all(),
             'perfil' : perfil1,
-            'form': form
+            'form': form,
+            'grupo': Grupos.objects.get(id = id),
         }
         return render(request,'editacriarGrupo.html',context)
 
@@ -1053,3 +1167,54 @@ def deletComentPost(request,id):
         idt = str(publicate.publi.id)
         publicate.delete()
         return HttpResponseRedirect('/pucacaogrupo/'+idt+'/')
+
+def deletComent(request,publicacao_id):
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:
+        publicate = Coment_Publis.objects.get(id=publicacao_id)
+        idt = str(publicate.publi.id)
+        print(publicacao_id)
+        publicate.delete()
+        return HttpResponseRedirect('/viewPublicacao/'+idt+'/')
+
+def deletPublicGrupo(request,id):
+    if request.user.is_authenticated():
+        publicate = Publicacao_Grupo_de_Estudo.objects.get(id=id)
+        idt = str(publicate.grupo.id)
+        publicate.delete()
+        return HttpResponseRedirect('/grupo/'+idt+'/')
+    else:
+        return render(request, 'index.html')
+
+def editPublicGrupo(request,id):
+    if not request.user.is_authenticated():
+        return render(request, 'index.html')
+    else:    
+        publicate = Publicacao_Grupo_de_Estudo.objects.get(id=id)
+        grupo = publicate.grupo
+        user = request.user
+        form = FormPublicacao_Grupo_de_Estudo(request.POST)
+        if request.method == "POST":
+            form = FormPublicacao_Grupo_de_Estudo(request.POST)
+            if form.is_valid():
+                area = get_object_or_404(Obt_Estudo,id=request.POST.get('area',''))
+                if request.FILES.get('anexo', False):
+                    publicate.anexo = request.FILES.get('anexo', False)
+                if request.POST.get('titulo'):
+                    publicate.titulo = request.POST.get('titulo')
+                if request.POST.get('texto'):
+                    publicate.texto = request.POST.get('texto')
+                publicate.save()
+                publicate.area.clear()
+                publicate.area.add(area)
+                print(grupo.id)
+                return HttpResponseRedirect('/grupo/'+str(grupo.id))
+        context = {
+                'grupo': grupo,
+                'form' : form,
+                'public':publicate,
+                'obt_estudos' : Obt_Estudo.objects.all(),
+                'user' : user,
+        }
+        return render(request, 'editpg.html',context)

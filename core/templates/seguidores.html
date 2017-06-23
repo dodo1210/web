@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-	<title>Django</title>
+	<title>Quarkdo</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
@@ -30,10 +30,10 @@
 	<!--buscar-->
 	<div id="buscar" class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
 		<br>
-		<form class="form-horizont">
+		<form action="/buscar/" class="form-horizont">
 	  		<div class="form-group">
 	    		<div class="col-sm-10">
-	      			<input type="email" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
+	      			<input type="text" name="busca" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
 	    		</div>
 	    		<button class="btn">
 	      			<div>
@@ -119,7 +119,12 @@
 		<div id="publicar" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
 			{% if not segindores %}
-				
+				<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+					<BR>
+					<a href=""><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+					<a style="color:black;" href=""><h3>QUARKDO</h3></a>
+					<h3>Não há seguidores no momento.</h3>
+				</div>
 			{% endif%}
 			{% for single in segindores%}
 			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">

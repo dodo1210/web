@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-	<title>Django</title>
+	<title>Quarkdo</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
@@ -30,14 +30,14 @@
 	<!--buscar-->
 	<div id="buscar" class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
 		<br>
-		<form class="form-horizont">
+		<form action="/buscar/" class="form-horizont">
 	  		<div class="form-group">
 	    		<div class="col-sm-10">
-	      			<input type="email" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
+	      			<input name="busca" type="text" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
 	    		</div>
-	    		<button class="btn">
+	    		<button>
 	      			<div>
-	      				<span class="glyphicon glyphicon-search" ></span>
+	      				<span class="glyphicon glyphicon-search btn" ></span>
       			 	</div>
 	      		</button>
 	  		</div>
@@ -117,35 +117,43 @@
 	<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
 
 		<div id="publicar" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+		{%if segindo %}
+				{% for single in segindo%}
+				<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
-			{% for single in segindo%}
-			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<!--Aqui vc coloca o for onde vai ter a imagem do seguidor o nome do seguidor e o link para ir a págia daquele seguidor-->
+						<br>
+						<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3">
+							<!--imagem do perfil do cara-->
+							{%if single.imagem_perfil %}
+								<img src="{{single.imagem_perfil.url}}">
+							{%else%}
+								<img src="{% static 'img/logo_menor.png' %}">
+							{%endif%}
+						</div>
+						<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
+							<!--Nome e link para a página do cara-->
+							<a href="/showPerfil/{{single.user.id}}"><h3 class="text-capitalize">{{single.user.username}}</h3></a>
+							<h5>{{single.user.first_name}} {{single.user.last_name}}</h5>
+						</div>
+						<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3"></div>
+						<br>
+						<br>
 
-			<!--Aqui vc coloca o for onde vai ter a imagem do seguidor o nome do seguidor e o link para ir a págia daquele seguidor-->
-					<br>
-					<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3">
-						<!--imagem do perfil do cara-->
-						{%if single.imagem_perfil %}
-							<img src="{{single.imagem_perfil.url}}">
-						{%else%}
-							<img src="{% static 'img/logo_menor.png' %}">
-						{%endif%}
-					</div>
-					<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
-						<!--Nome e link para a página do cara-->
-						<a href="/showPerfil/{{single.user.id}}"><h3 class="text-capitalize">{{single.user.username}}</h3></a>
-						<h5>{{single.user.first_name}} {{single.user.last_name}}</h5>
-					</div>
-					<div class="col-sm-3 col-md-3 col-xs-12 col-lg-3"></div>
-					<br>
-					<br>
-
-					<br>
-					<br>
-				<!--final do for-->
-			</div>
+						<br>
+						<br>
+					<!--final do for-->
+				</div>
 			
 				{%endfor%}
+		{%else%}
+			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<BR>
+				<a href=""><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+				<a style="color:black;" href=""><h3>QUARKDO</h3></a>
+				<h3>Você não está seguindo alguém no momento</h3>
+			</div>
+		{%endif%}
 
 		</div>
 		<br>

@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-	<title>Quarkdo - Home</title>
+	<title>Quarkdo</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
@@ -121,15 +121,10 @@
 			<br>
 			<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
 
-				{% for perfil in perfis %}
-					{% if perfil.user.username == publicacao.user.username %}
-						{% if perfil.imagem_perfil %}
-							<a href="/showPerfil/{{publicacao.user.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{perfil.imagem_perfil.url}}">{{perfil.user.username}}</a>
+						{% if publicacao.perfil.imagem_perfil %}
+							<a href="/showPerfil/{{publicacao.user.id}}"><img id="usu_timeline" class="usu img-responsive" src="{{publicacao.perfil.imagem_perfil.url}}">{{publicacao.perfil.user.username}}</a>
 						{% endif %}
 						<h6><small>{{publicacao.data}}</small></h6>
-					{{break}}
-					{% endif %}
-				{% endfor %}
 				<hr>
 				<h1> {{publicacao.titulo}} </h1>
 			</div>
@@ -155,6 +150,7 @@
 				{% csrf_token %}
 				<br>
 				<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+				<br>
 					<input type="text" class="form-control" placeholder="Comente a publicação" name="coment">
 			  	</div>
 			  	<br>

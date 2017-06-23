@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-	<title>Django</title>
+	<title>Quarkdo</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
@@ -33,7 +33,7 @@
 		<form class="form-horizont">
 	  		<div class="form-group">
 	    		<div class="col-sm-10">
-	      			<input type="email" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
+	      			<input type="text" class="form-control" id="inputEmail3" placeholder="Faça sua pesquisa">
 	    		</div>
 	    		<button>
 	      			<div class="">
@@ -119,9 +119,13 @@
 
 		<!--publicar-->
 		<div id="publicar" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-		
+			{% if perfil %}
+				<h1>Editar perfil</h1>
+			{% else %}
+				<h1>Criar perfil</h1>
+			{% endif %}
 			<div id="timeline" class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-				<form method = "post" enctype="multipart/form-data">
+				<form method="post" enctype="multipart/form-data">
 					{% csrf_token %}
 					<br>
 					
@@ -129,20 +133,16 @@
 						<textarea name="bio" placeholder="Biografia" class="form-control" rows="5" id="comment">{{perfil.bio}}</textarea>
 					</div>
 
-					<div class="col-sm-5 col-md-5 col-xs-12 col-lg-5">
+					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
+						<h4>Imagem do perfil:</h4>
 						{{form.imagem_perfil}}
 					</div>
-
-					<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
-						
-					</div>
-					
-					<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">
-				  	</div>
 
 				  	<!--botão-->
 				  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
 				  		<button class="btn"><strong>EDITAR</strong></button>
+						<br>
+						<br>
 					</div>
 
 					<div class="col-sm-1 col-md-1 col-xs-12 col-lg-1">

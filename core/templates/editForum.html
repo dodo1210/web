@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-	<title>Django</title>
+	<title>Quarkdo</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
@@ -131,9 +131,7 @@
 					<!--opções-->
 					<div class="col-sm-4 col-md-4 col-xs-12 col-lg-4">
 						<select name="area">
-							{% for selecionada in selecionada %}
-								<option value="{{obj.id}}"><b>{{selecionada}}</b></option>
-							{% endfor %}
+							
 							{% for obj in obt_estudos %}
 								<option value="{{obj.id}}">{{obj.nome}}</option>
 							{% endfor %}
@@ -149,8 +147,9 @@
 
 				  	<!--botão-->
 				  	<div class="col-sm-2 col-md-2 col-xs-12 col-lg-2">
-				  		<button class="btn"><strong>ENVIAR</strong></button>
+				  		<button class="btn"><strong>EDITAR</strong></button>
 					</div>
+					<br>
 					<br>
 				</form>
 			</div>

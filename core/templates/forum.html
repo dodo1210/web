@@ -2,7 +2,7 @@
 {% load static %}
 <html>
 <head>
-	<title>Django</title>
+	<title>Quarkdo</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
@@ -166,7 +166,7 @@
 				<div class="col-sm-11 col-md-11 col-xs-12 col-lg-11">
 					
 					<div class="col-sm-12 col-md-12 col-xs-12 col-lg-11">
-						<a href="/exibirPerfil/"><img id="usu_timeline" class="usu img-responsive" src="{% static 'img/logo_menor.png' %}"></a>
+						<a href="/exibirPerfil/"><img id="usu_timeline" class="usu img-responsive" src="{{forum.perfil.imagem_perfil.url}}"></a>
 						<div class="col-sm-6 col-md-6 col-xs-12 col-lg-6">
 							<a href="/showPerfil/{{user.id}}"><h3><small>Autor: {{forum.user.username}}</small></h3></a>
 						</div>
