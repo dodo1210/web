@@ -1,1 +1,2 @@
-Rede social para compartilhamento de informações entre estudantes
+#QuarkDo
+Uma rede social para compartilhamento de informações entre estudantes
